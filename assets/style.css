@@ -1,0 +1,46 @@
+
+
+@font-face {
+    font-family: EquityA;
+    src: url("fonts/equity_ot_a_regular_custom.woff2");
+}
+
+@font-face {
+    font-family: EquityA;
+    font-weight: bold;
+    src: url("fonts/equity_ot_a_bold_custom.woff2");
+}
+
+@font-face {
+    font-family: EquityA;
+    font-style: italic;
+    src: url("fonts/equity_ot_a_italic_custom.woff2");
+}
+
+@font-face {
+    font-family: EquityA;
+    font-weight: bold;
+    font-style: italic;
+    src: url("fonts/equity_ot_a_bold_italic_custom.woff2");
+}
+
+:root {
+    --serif-font: EquityA, TimesNewRoman, Times New Roman, Times, Baskerville, Georgia, serif;
+    --sans-serif-font: Concourse, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, Arial, sans-serif;
+    --monospaced-font: "Fira Mono", ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+    --body-text-size: 21px;
+    --body-line-spacing: 1.45;
+    --bg-color: #FFFFFF;
+    --text-color: #000000;
+    --lighter-text-color: #888;
+    --accent-color: #D04611;
+    --body-width: 607px;
+}
+
+body {
+    width: 700px;
+    margin: auto;
+    font-family: var(--serif-font);
+    font-size: var(--body-text-size);
+    line-height: var(--body-line-spacing);
+}

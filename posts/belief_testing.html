@@ -5,87 +5,89 @@
   <title>Hello, world!</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="" />
-  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" type="text/css" href="/assets/style.css" />
   <link rel="icon" href="favicon.png">
   <meta name="theme-color" content="">
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-  <h1>Updating your beliefs after tests, or disease testing</h1>
-  <p>Suppose you want to test whether a statement is true. You have a binary test with a false positive rate \(f^+\) and a false negative rate \(f^-\), and for which successive applications are independent. Then the probability of the statement being true after running some tests is</p>
-    <p>\[
-    J^p_m(d) = \frac{(1-f^-)^p (f^-)^md}{(1-f^-)^p(f^-)^md+(1-f^+)^m(f^+)^p(1-d)}
-    \]</p>
+  <div>
+    <h1>Updating your beliefs after tests, or disease testing</h1>
+    <p>Suppose you want to test whether a statement is true. You have a binary test with a false positive rate \(f^+\) and a false negative rate \(f^-\), and for which successive applications are independent. Then the probability of the statement being true after running some tests is</p>
+        <p>\[
+        J^p_m(d) = \frac{(1-f^-)^p (f^-)^md}{(1-f^-)^p(f^-)^md+(1-f^+)^m(f^+)^p(1-d)}
+        \]</p>
 
-    <p>with an initial belief, before testing, that the statement is true with probability \(d\); \(p\) positive tests; and \(m\) negative tests.<p>
+        <p>with an initial belief, before testing, that the statement is true with probability \(d\); \(p\) positive tests; and \(m\) negative tests.<p>
 
-    <p>Successive rounds of tests may, of course, apply the same logic with an updated belief, as we must have</p>
+        <p>Successive rounds of tests may, of course, apply the same logic with an updated belief, as we must have</p>
 
-    <p>\[
-    J^{p+p'}_{m+m'}=J^{p'}_{m'} \circ J^p_m\text{.}
-    \]</p>
+        <p>\[
+        J^{p+p'}_{m+m'}=J^{p'}_{m'} \circ J^p_m\text{.}
+        \]</p>
 
-    <p>This is usually discussed in the context of disease testing, though in reality the assumption of independence of test outcomes may be faulty (such as false positives caused by the presence of a rare chemical in the body).</p>
+        <p>This is usually discussed in the context of disease testing, though in reality the assumption of independence of test outcomes may be faulty (such as false positives caused by the presence of a rare chemical in the body).</p>
 
-    <table>
-      <tr>
-        <td>\(d\)</td>
-        <td><input type="text" id="prior-disease-rate" name="prior-disease-rate" value="0.2%"/></td>
-        <td id="result-box" rowspan="5">043983046</td>
-      </tr>
-      <tr>
-        <td>\(f^+\)</td>
-        <td><input type="text" id="false-positive-rate" name="false-positive-rate" value="1.0%"/></td>
-      </tr>
-      <tr>
-        <td>\(f^-\)</td>
-        <td><input type="text" id="false-negative-rate" name="false-negative-rate" value="0.05%"/></td>
-      </tr>
-      <tr>
-        <td>\(p\)</td>
-        <td><input type="text" id="num-positives" name="num-positives" value="8"/></td>
-      </tr>
-      <tr>
-        <td>\(m\)</td>
-        <td><input type="text" id="num-negatives" name="num-negatives" value="4"/></td>
-      </tr>
-    </table>
+        <table>
+        <tr>
+            <td>\(d\)</td>
+            <td><input type="text" id="prior-disease-rate" name="prior-disease-rate" value="0.2%"/></td>
+            <td id="result-box" rowspan="5">043983046</td>
+        </tr>
+        <tr>
+            <td>\(f^+\)</td>
+            <td><input type="text" id="false-positive-rate" name="false-positive-rate" value="1.0%"/></td>
+        </tr>
+        <tr>
+            <td>\(f^-\)</td>
+            <td><input type="text" id="false-negative-rate" name="false-negative-rate" value="0.05%"/></td>
+        </tr>
+        <tr>
+            <td>\(p\)</td>
+            <td><input type="text" id="num-positives" name="num-positives" value="8"/></td>
+        </tr>
+        <tr>
+            <td>\(m\)</td>
+            <td><input type="text" id="num-negatives" name="num-negatives" value="4"/></td>
+        </tr>
+        </table>
 
-    <script>
-      const RESULT_PRECISION = 8;
+        <script>
+        const RESULT_PRECISION = 8;
 
-      const calculate = (d, f_plus, f_minus, p, m) => {
-          const top = (1-f_minus)**p * f_minus**m * d;
-          const bottom_right = (1-f_plus)**m * f_plus**p * (1-d);
-          return top / (top + bottom_right);
-      }
+        const calculate = (d, f_plus, f_minus, p, m) => {
+            const top = (1-f_minus)**p * f_minus**m * d;
+            const bottom_right = (1-f_plus)**m * f_plus**p * (1-d);
+            return top / (top + bottom_right);
+        }
 
-      const parseFloatOrPercent = f => {
-          if (f.endsWith("%")) {
-              return parseFloat(f.slice(0, f.length - 1)) / 100.0;
-          } else {
-              return parseFloat(f);
-          }
-      }
+        const parseFloatOrPercent = f => {
+            if (f.endsWith("%")) {
+                return parseFloat(f.slice(0, f.length - 1)) / 100.0;
+            } else {
+                return parseFloat(f);
+            }
+        }
 
-      const updateResults = () => {
-          const d = parseFloatOrPercent(document.getElementById("prior-disease-rate").value);
-          const f_plus = parseFloatOrPercent(document.getElementById("false-positive-rate").value);
-          const f_minus = parseFloatOrPercent(document.getElementById("false-negative-rate").value);
-          const p = parseInt(document.getElementById("num-positives").value);
-          const m = parseInt(document.getElementById("num-negatives").value);
-          const result = calculate(d, f_plus, f_minus, p, m);
-          // TODO: handle NaNs/parsing etc.
-          if (!Number.isNaN(result)) {
-              document.getElementById("result-box").innerHTML = result.toPrecision(RESULT_PRECISION);
-          }
-      }
+        const updateResults = () => {
+            const d = parseFloatOrPercent(document.getElementById("prior-disease-rate").value);
+            const f_plus = parseFloatOrPercent(document.getElementById("false-positive-rate").value);
+            const f_minus = parseFloatOrPercent(document.getElementById("false-negative-rate").value);
+            const p = parseInt(document.getElementById("num-positives").value);
+            const m = parseInt(document.getElementById("num-negatives").value);
+            const result = calculate(d, f_plus, f_minus, p, m);
+            // TODO: handle NaNs/parsing etc.
+            if (!Number.isNaN(result)) {
+                document.getElementById("result-box").innerHTML = result.toPrecision(RESULT_PRECISION);
+            }
+        }
 
-      for (const id of ["prior-disease-rate", "false-positive-rate", "false-negative-rate", "num-positives", "num-negatives"]) {
-          document.getElementById(id).addEventListener("input", updateResults);
-      }
+        for (const id of ["prior-disease-rate", "false-positive-rate", "false-negative-rate", "num-positives", "num-negatives"]) {
+            document.getElementById(id).addEventListener("input", updateResults);
+        }
 
-      updateResults();
-    </script>
+        updateResults();
+        </script>
+    </div>
 </body>
 </html>
