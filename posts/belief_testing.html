@@ -32,7 +32,7 @@
         <tr>
             <td>\(d\)</td>
             <td><input type="text" id="prior-disease-rate" name="prior-disease-rate" value="0.002"/></td>
-            <td id="result-box" rowspan="5">043983046</td>
+            <td id="result-box" rowspan="5"></td>
         </tr>
         <tr>
             <td>\(f^+\)</td>
@@ -97,10 +97,9 @@
             document.getElementById(id).addEventListener("input", updateResults);
         }
 
-        updateResults();
-        // onload = (event) => {
-            
-        // };
+        onload = (event) => {
+            updateResults();
+        };
         </script>
         <style>
           #disease-table td:nth-child(1) { text-align:center; }
