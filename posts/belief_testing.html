@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="" />
   <link rel="stylesheet" type="text/css" href="/assets/style.css" />
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <link rel="icon" href="favicon.png">
   <meta name="theme-color" content="">
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
   <div>
@@ -28,19 +28,19 @@
 
         <p>This is usually discussed in the context of disease testing, though in reality the assumption of independence of test outcomes may be faulty (such as false positives caused by the presence of a rare chemical in the body).</p>
 
-        <table>
+        <table id="disease-table">
         <tr>
             <td>\(d\)</td>
-            <td><input type="text" id="prior-disease-rate" name="prior-disease-rate" value="0.2%"/></td>
+            <td><input type="text" id="prior-disease-rate" name="prior-disease-rate" value="0.002"/></td>
             <td id="result-box" rowspan="5">043983046</td>
         </tr>
         <tr>
             <td>\(f^+\)</td>
-            <td><input type="text" id="false-positive-rate" name="false-positive-rate" value="1.0%"/></td>
+            <td><input type="text" id="false-positive-rate" name="false-positive-rate" value="0.01"/></td>
         </tr>
         <tr>
             <td>\(f^-\)</td>
-            <td><input type="text" id="false-negative-rate" name="false-negative-rate" value="0.05%"/></td>
+            <td><input type="text" id="false-negative-rate" name="false-negative-rate" value="0.0005"/></td>
         </tr>
         <tr>
             <td>\(p\)</td>
@@ -77,9 +77,20 @@
             const m = parseInt(document.getElementById("num-negatives").value);
             const result = calculate(d, f_plus, f_minus, p, m);
             // TODO: handle NaNs/parsing etc.
-            if (!Number.isNaN(result)) {
-                document.getElementById("result-box").innerHTML = result.toPrecision(RESULT_PRECISION);
-            }
+            // if (!Number.isNaN(result)) {
+            //     document.getElementById("result-box").innerHTML = result.toPrecision(RESULT_PRECISION);
+            // }
+
+            const oneMinusD = 1-d;
+            const oneMinusFPlus = 1-f_plus;
+            const oneMinusFMinus = 1-f_minus;
+
+            const top = `{${oneMinusFMinus}}^{${p}}\\cdot (${f_minus})^{${m}}\\cdot${d}`;
+            const mathString = `\\begin{aligned}J_{${p}}^{${m}}(${d}) &= \\frac{${top}}{${top}+{${oneMinusFMinus}}^{${m}}\\cdot{${f_plus}}^{${p}}\\cdot${oneMinusD}}\\\\[1em] &\\approx ${result}\\end{aligned}`;
+            const resultNode = document.getElementById("result-box");
+            MathJax.typesetClear([resultNode]);
+            resultNode.innerHTML = mathString;
+            MathJax.typesetPromise([resultNode]).then(() => {});
         }
 
         for (const id of ["prior-disease-rate", "false-positive-rate", "false-negative-rate", "num-positives", "num-negatives"]) {
@@ -87,7 +98,13 @@
         }
 
         updateResults();
+        // onload = (event) => {
+            
+        // };
         </script>
+        <style>
+          #disease-table td:nth-child(1) { text-align:center; }
+        </style>
     </div>
 </body>
 </html>

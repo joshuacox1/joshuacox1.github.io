@@ -24,12 +24,65 @@
     src: url("fonts/equity_ot_a_bold_italic_custom.woff2");
 }
 
+@font-face {
+    font-family: Concourse;
+    font-weight: 300;
+    src: url("fonts/concourse_ot_3_book_custom.woff2");
+}
+
+@font-face {
+    font-family: Concourse;
+    font-weight: 300;
+    font-style: italic;
+    src: url("fonts/concourse_ot_3_book_italic.woff2");
+}
+
+@font-face {
+    font-family: Concourse;
+    font-weight: 400;
+    src: url("fonts/concourse_ot_4_medium_custom.woff2");
+}
+
+@font-face {
+    font-family: Concourse;
+    font-weight: 400;
+    font-style: italic;
+    src: url("fonts/concourse_ot_4_medium_italic.woff2");
+}
+
+@font-face {
+    font-family: Concourse;
+    font-weight: 600;
+    src: url("fonts/concourse_ot_6_semibold.woff2");
+}
+
+@font-face {
+    font-family: Concourse;
+    font-weight: 600;
+    font-style: italic;
+    src: url("fonts/concourse_ot_6_semibold_italic.woff2");
+}
+
+@font-face {
+    font-family: "Fira Mono";
+    font-weight: 300;
+    src: url("fonts/fira_mono_regular.woff2");
+}
+
+@font-face {
+    font-family: "Fira Mono";
+    font-weight: 600;
+    src: url("fonts/fira_mono_bold.woff2");
+}
+
 :root {
     --serif-font: EquityA, TimesNewRoman, Times New Roman, Times, Baskerville, Georgia, serif;
     --sans-serif-font: Concourse, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, Arial, sans-serif;
     --monospaced-font: "Fira Mono", ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
-    --body-text-size: 21px;
-    --body-line-spacing: 1.45;
+    --body-text-size: 18px;
+    --input-text-size: 15px;
+    --h1-text-size: 22px;
+    --body-line-spacing: 1.32;
     --bg-color: #FFFFFF;
     --text-color: #000000;
     --lighter-text-color: #888;
@@ -38,9 +91,19 @@
 }
 
 body {
-    width: 700px;
+    width: var(--body-width);
     margin: auto;
     font-family: var(--serif-font);
     font-size: var(--body-text-size);
     line-height: var(--body-line-spacing);
+}
+
+h1 {
+    font-size: var(--h1-text-size);
+}
+
+input[type="text"] {
+    font-family: var(--sans-serif-font);
+    font-size: var(--input-text-size);
+    font-feature-settings: "tnum";
 }
