@@ -79,14 +79,16 @@
     --serif-font: EquityA, TimesNewRoman, Times New Roman, Times, Baskerville, Georgia, serif;
     --sans-serif-font: Concourse, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, Arial, sans-serif;
     --monospaced-font: "Fira Mono", ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
-    --body-text-size: 18px;
     --input-text-size: 15px;
+    --body-text-size: 18px;
+    --h2-text-size: 18px;
     --h1-text-size: 22px;
-    --body-line-spacing: 1.32;
+    --body-line-spacing: 1.4;
     --bg-color: #FFFFFF;
     --text-color: #000000;
     --lighter-text-color: #888;
     --accent-color: #D04611;
+    --invisible-link-hover-color: #f35f5f25;
     --body-width: 607px;
 }
 
@@ -102,8 +104,29 @@ h1 {
     font-size: var(--h1-text-size);
 }
 
+h2, h3 {
+    font-size: var(--h2-text-size);
+    font-feature-settings: "c2sc";
+}
+
 input[type="text"] {
     font-family: var(--sans-serif-font);
     font-size: var(--input-text-size);
     font-feature-settings: "tnum";
+}
+
+a.invisible-link {
+    color: inherit;
+    text-decoration: none;
+    transition: background-color 0.15s;
+    border-radius: 3px;
+}
+
+li {
+    margin-bottom: 2px;
+}
+
+a.invisible-link:hover {
+    /* opacity: 0.6; */
+    background-color: var(--invisible-link-hover-color);
 }

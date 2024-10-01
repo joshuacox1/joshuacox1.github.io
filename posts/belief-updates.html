@@ -86,7 +86,7 @@
             const oneMinusFMinus = 1-f_minus;
 
             const top = `{${oneMinusFMinus}}^{${p}}\\cdot (${f_minus})^{${m}}\\cdot${d}`;
-            const mathString = `\\begin{aligned}J_{${p}}^{${m}}(${d}) &= \\frac{${top}}{${top}+{${oneMinusFMinus}}^{${m}}\\cdot{${f_plus}}^{${p}}\\cdot${oneMinusD}}\\\\[1em] &\\approx ${result}\\end{aligned}`;
+            const mathString = `\\begin{aligned}J_{${p}}^{${m}}(${d}) &= \\frac{${top}}{${top}+{${oneMinusFPlus}}^{${m}}\\cdot{${f_plus}}^{${p}}\\cdot${oneMinusD}}\\\\[1em] &\\approx ${result}\\end{aligned}`;
             const resultNode = document.getElementById("result-box");
             MathJax.typesetClear([resultNode]);
             resultNode.innerHTML = mathString;

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello, world!</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+  <link rel="stylesheet" type="text/css" href="/assets/style.css" />
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <link rel="icon" href="favicon.png">
+  <meta name="theme-color" content="">
+</head>
+<body>
+  <div>
+    <h1>Some formulas for counting necklaces and bracelets</h1>
+    <h2>Necklaces and bracelets with some number of colours</h2>
+    <p>The number of \(k\)-ary necklaces of length \(n\):</p>
+
+    <p>\[N_k(n)=\sum_{d\mid n}\varphi(d)k^{n/d}=\sum_{i=1}^n k^{\gcd(n,i)}\]</p>
+    <p>where \(\varphi\) is the Euler totient function.</p>
+
+    <p>The number of \(k\)-ary bracelets of length \(n\):</p>
+
+    <p>\[B_k(n)=\tfrac{1}{2}N_k(n) + \begin{cases}
+    \frac{1}{4}(k+1)k^{n/2} & n \text{ even}\\
+    \frac{1}{2}k^{(n+1)/2} & n \text{ odd}
+    \end{cases}\]</p>
+    <h2>Necklaces and bracelets on a fixed multiset</h2>
+
+    <p>Let \(Q=\{1^{(a_1)},\ldots,k^{(a_k)}\}\) be a multiset of beads. Then the number of distinct necklaces on \(Q\) is</p>
+
+    <p>\[
+    N(Q)= \frac{1}{|Q|} \sum_{d\mid \gcd(a_1,\ldots,a_k)} \binom{\diamond}{a_1/d,\ldots,a_k/d}\varphi(d)
+    \]</p>
+
+    <p>where</p>
+
+    <p>\[
+    \binom{\diamond}{m_1,\ldots,m_n}=\binom{m_1+\cdots+m_n}{m_1,\ldots,m_n}:=\frac{(m_1 +\cdots + m_n)!}{m_1!\cdots m_n!}
+    \]</p>
+
+    <p>denotes the multinomial coefficient.</p>
+
+    <p>The number of bracelets on \(Q\) is</p>
+
+    <p>\[
+    B(Q)=\tfrac{1}{2}N(Q)+\begin{cases}
+    \tfrac{1}{2}|Q|\binom{\diamond}{\lfloor a_1/2\rfloor,\ldots,\lfloor a_k/2\rfloor} & (|Q|\text{ odd} \mathbin{\&} o=1)\mathbin{\text{or}} (|Q|\text{ even} \mathbin{\&} o\in\{0,2\}) \\
+    0 & \text{otherwise.}
+    \end{cases}
+    \]</p>
+
+    <p>where \(o\) is the number of odd \(a_i\).</p>
+  </div>
+</body>
+</html>
