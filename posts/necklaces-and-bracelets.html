@@ -160,15 +160,6 @@
         yield* allRotations(flipArray(arr));
     }
 
-    const rotateColours = (arr, j) => {
-        const result = [];
-        const n = arr.length;
-        for (let i = 0; i < n; i++) {
-            result.push((arr[i]+j)%n);
-        }
-        return result;
-    }
-
     function* allColourRotations(arr, numColors) {
         const n = arr.length;
         const colors = [];

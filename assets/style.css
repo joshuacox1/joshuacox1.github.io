@@ -2,77 +2,77 @@
 
 @font-face {
     font-family: EquityA;
-    src: url("fonts/equity_ot_a_regular_custom.woff2");
+    src: url("/assets/fonts/equity_ot_a_regular.woff2");
 }
 
 @font-face {
     font-family: EquityA;
     font-weight: bold;
-    src: url("fonts/equity_ot_a_bold_custom.woff2");
+    src: url("/assets/fonts/equity_ot_a_bold.woff2");
 }
 
 @font-face {
     font-family: EquityA;
     font-style: italic;
-    src: url("fonts/equity_ot_a_italic_custom.woff2");
+    src: url("/assets/fonts/equity_ot_a_italic.woff2");
 }
 
 @font-face {
     font-family: EquityA;
     font-weight: bold;
     font-style: italic;
-    src: url("fonts/equity_ot_a_bold_italic_custom.woff2");
+    src: url("/assets/fonts/equity_ot_a_bold_italic.woff2");
 }
 
 @font-face {
     font-family: Concourse;
     font-weight: 300;
-    src: url("fonts/concourse_ot_3_book_custom.woff2");
+    src: url("/assets/fonts/concourse_ot_3_book.woff2");
 }
 
 @font-face {
     font-family: Concourse;
     font-weight: 300;
     font-style: italic;
-    src: url("fonts/concourse_ot_3_book_italic.woff2");
+    src: url("/assets/fonts/concourse_ot_3_book_italic.woff2");
 }
 
 @font-face {
     font-family: Concourse;
     font-weight: 400;
-    src: url("fonts/concourse_ot_4_medium_custom.woff2");
+    src: url("/assets/fonts/concourse_ot_4_medium.woff2");
 }
 
 @font-face {
     font-family: Concourse;
     font-weight: 400;
     font-style: italic;
-    src: url("fonts/concourse_ot_4_medium_italic.woff2");
+    src: url("/assets/fonts/concourse_ot_4_medium_italic.woff2");
 }
 
 @font-face {
     font-family: Concourse;
-    font-weight: 600;
-    src: url("fonts/concourse_ot_6_semibold.woff2");
+    font-weight: 700;
+    src: url("/assets/fonts/concourse_ot_6_bold.woff2");
 }
 
 @font-face {
     font-family: Concourse;
-    font-weight: 600;
+    font-weight: 700;
     font-style: italic;
-    src: url("fonts/concourse_ot_6_semibold_italic.woff2");
+    src: url("/assets/fonts/concourse_ot_6_bold_italic.woff2");
 }
 
 @font-face {
     font-family: "Fira Mono";
     font-weight: 300;
-    src: url("fonts/fira_mono_regular.woff2");
+    src: url("/assets/fonts/fira_mono_regular.woff2");
 }
 
 @font-face {
     font-family: "Fira Mono";
     font-weight: 600;
-    src: url("fonts/fira_mono_bold.woff2");
+    src: url("/assets/fonts/fira_mono_bold.woff2");
 }
 
 :root {
@@ -83,6 +83,7 @@
     --body-text-size: 18px;
     --h2-text-size: 18px;
     --h1-text-size: 22px;
+    --h1-title-text-size: 46px;
     --body-line-spacing: 1.4;
     --bg-color: #FFFFFF;
     --text-color: #000000;
@@ -103,6 +104,18 @@ body {
 h1 {
     font-size: var(--h1-text-size);
 }
+
+h1.title {
+    /* font-family: var(--sans-serif-font); */
+    /* tfw no mixins */
+    text-transform: lowercase;
+    font-feature-settings: "case";
+    font-weight: normal;
+    font-size: var(--h1-title-text-size);
+    text-align: center;
+}
+
+
 
 h2, h3 {
     font-size: var(--h2-text-size);
