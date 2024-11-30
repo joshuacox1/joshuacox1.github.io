@@ -13,11 +13,12 @@
 <body>
   <div>
     <h1>Some formulas for counting necklaces and bracelets</h1>
+    <p>The results in the next two sections can be derived using <a target=_blank href="https://en.wikipedia.org/wiki/Burnside%27s_lemma">Burnside&#8217;s lemma</a> or <a target=_blank href="https://en.wikipedia.org/wiki/P%C3%B3lya_enumeration_theorem">Pólya&#8217;s enumeration theorem</a> and careful counting.</p>
     <h2>Necklaces and bracelets with some number of colours</h2>
     <p>The number of \(k\)-ary necklaces of length \(n\):</p>
 
     <p>\[N_k(n)=\sum_{d\mid n}\varphi(d)k^{n/d}=\sum_{i=1}^n k^{\gcd(n,i)}\]</p>
-    <p>where \(\varphi\) is the Euler totient function.</p>
+    <p>where \(\varphi=\{1\leq i \leq n : \gcd(n,i) = 1\}\) is the <a target=_blank href="https://en.wikipedia.org/wiki/Euler%27s_totient_function">Euler totient function</a>.</p>
 
     <p>The number of \(k\)-ary bracelets of length \(n\):</p>
 
@@ -51,6 +52,329 @@
     \]</p>
 
     <p>where \(o\) is the number of odd \(a_i\).</p>
+    <h2>Aperiodic necklaces</h2>
+    <p>By <a target="_blank" href="https://en.wikipedia.org/wiki/M%C3%B6bius_inversion_formula">Möbius inversion</a> on \(N_k\) we have</p>
+
+    <p>\[N^\circ_k(n)=\frac{1}{n}\sum_{d\mid n}\mu(d)k^{n/d}\]</p>
+
+    <p>\(k\)-ary aperiodic necklaces of length \(n\), where</p>
+
+    <p>\[\mu(d)=\begin{cases}
+        (-1)^r & \text{if }d\text{ is the product of }r\text{ distinct primes}\\
+        0 & \text{if }d\text{ is divisible by a square} > 1
+        \end{cases}\]</p>
+    <p>is the <a target="_blank" href="https://en.wikipedia.org/wiki/M%C3%B6bius_function">Möbius function</a>.</p>
+    <p>For aperiodic necklaces on the multiset \(Q\) from earlier&hellip; todo.</p>
   </div>
+  <script>
+    const arrClone = arr => {
+        const clone = [];
+        for (let i = 0; i < arr.length; i++) {
+            clone.push(arr[i]);
+        }
+        return clone;
+    }
+
+    function* kArraysOfLengthN(n, k) {
+        if (k <= 0) {
+            return;
+        }
+        const result = [];
+        for (let i = 0; i < n; i++) {
+            result.push(0);
+        }
+        yield arrClone(result);
+        let pos = n-1;
+        while (pos >= 0) {
+            let item = result[pos];
+            if (item < k-1) {
+                result[pos] += 1;
+                yield arrClone(result);
+                pos = n-1;
+            } else {
+                result[pos] = 0;
+                pos--;
+            }
+        }
+    }
+
+    function* permutations(arr) {
+        const n = arr.length;
+        const c = [];
+        for (let i = 0; i < n; i++) {
+            c.push(0);
+        }
+        yield arrClone(arr);
+
+        let i = 1;
+        while (i < n) {
+            if (c[i] < i) {
+                const swap1 = i % 2 == 0 ? 0 : c[i];
+                const swap2 = i;
+                const temp = arr[swap1];
+                arr[swap1] = arr[swap2];
+                arr[swap2] = temp;
+
+                yield arrClone(arr);
+    
+                c[i] += 1;
+                i = 1;
+            } else {
+                c[i] = 0;
+                i += 1;
+            }
+        }
+    }
+
+    function* uniquePermutations(arr) {
+        yield* uniqueBySet(permutations(arr));
+    }
+
+    const rotateArray = (arr, k) => {
+        const result = [];
+        const n = arr.length;
+        const k_ = k%n;
+        for (let i = 0; i < n; i++) {
+            result.push(arr[(i+(n-k_))%n]);
+        }
+        return result;
+    }
+
+    const flipArray = (arr) => {
+        const result = [];
+        const n = arr.length;
+        for (let i = 0; i < n; i++) {
+            result.push(arr[n-i-1]);
+        }
+        return result;
+    }
+
+    function* allRotations(arr) {
+        for (let i = 0; i < arr.length; i++) {
+            yield rotateArray(arr, i);
+        }
+    }
+
+    function* allRotationsAndFlips(arr) {
+        yield* allRotations(arr);
+        yield* allRotations(flipArray(arr));
+    }
+
+    const rotateColours = (arr, j) => {
+        const result = [];
+        const n = arr.length;
+        for (let i = 0; i < n; i++) {
+            result.push((arr[i]+j)%n);
+        }
+        return result;
+    }
+
+    function* allColourRotations(arr, numColors) {
+        const n = arr.length;
+        const colors = [];
+        for (let c = 0; c < numColors; c++) {
+            colors.push(c);
+        }
+        for (const perm of permutations(colors)) {
+            const result = [];
+            for (let i = 0; i < arr.length; i++) {
+                result.push(perm[arr[i]]);
+            }
+            yield result;
+        }
+    }
+
+    function minOnArrays(arr1, arr2) {
+        let l1 = arr1.length;
+        let l2 = arr2.length;
+        let m = Math.min(l1, l2);
+        for (let i = 0; i < m; i++) {
+            if (arr1[i] < arr2[i]) {
+                return arr1;
+            } else if (arr1[i] > arr2[i]) {
+                return arr2;
+            }
+        }
+        if (l1 < l2) { return arr1; }
+        else if (l1 > l2) { return arr2; }
+        else { return arr1; } // the same
+    }
+
+    function minOnArrayOfArrays(arrs) {
+        let j = null;
+        for (const arr of arrs) {
+            if (j === null) {
+                j = arr;
+            } else {
+                j = minOnArrays(j, arr);
+            }
+        }
+        return j;
+    }
+
+    class StringifySet {
+        constructor() {
+            this.set = new Set();
+        }
+
+        add(item) {
+            const sItem = JSON.stringify(item);
+            return this.set.add(sItem);
+        }
+
+        has(item) {
+            const sItem = JSON.stringify(item);
+            return this.set.has(sItem);
+        }
+
+        items() {
+            const result = [];
+            for (const [e,duplicate] of this.set.entries()) {
+                result.push(JSON.parse(e));
+            }
+            return result;
+        }
+    }
+
+    const uniqueBySet = iterOfItems => {
+        const s = new StringifySet();
+        for (const p of iterOfItems) {
+            s.add(p);
+        }
+        return s.items();
+    }
+
+    class StringifyMap {
+        constructor() {
+            this.map = new Map();
+        }
+
+        set(key, value) {
+            const sKey = JSON.stringify(key);
+            return this.map.set(sKey, value);
+        }
+
+        get(key) {
+            const sKey = JSON.stringify(key);
+            return this.map.get(sKey);
+        }
+
+        has(key) {
+            const sKey = JSON.stringify(key);
+            return this.map.has(sKey);
+        }
+
+        entries() {
+            return [...this.map.entries()].map(kv => [JSON.parse(kv[0]), kv[1]]);
+        }
+    }
+
+    // setActedOn, some iterable of items.
+    // actingGroup, some function that takes an item and returns an iter of g*item for g in the group.
+    function* orbitsUnder(setActedOn, actingGroup) {
+        const canonicalItems = [];
+        const seen = new StringifySet();
+        for (const arr of setActedOn) {
+            if (!seen.has(arr)) {
+                const all = uniqueBySet(actingGroup(arr));
+                const canonical = minOnArrayOfArrays(all);
+                canonicalItems.push({
+                    "repr": canonical,
+                    "orbit": all.length,
+                });
+                for (const rot of all) {
+                    seen.add(rot);
+                }
+            }
+        }
+        for (const arr of canonicalItems) {
+            yield arr;
+        }
+    }
+
+    function* necklacesNK(n, k) {
+        const allArrs = kArraysOfLengthN(n, k);
+        yield* orbitsUnder(allArrs, allRotations);
+    }
+
+    function* braceletsNK(n, k) {
+        const allArrs = kArraysOfLengthN(n, k);
+        yield* orbitsUnder(allArrs, allRotationsAndFlips);
+    }
+
+    const frequenciesToArray = (freqs) => {
+        const result = [];
+        for (const [color,k] of freqs.entries()) {
+            for (let i = 0; i < k; i++) {
+                result.push(color);
+            }
+        }
+        return result;
+    }
+
+    function* necklacesMultiset(freqs) {
+        const arr = frequenciesToArray(freqs);
+        const uniquePerms = uniquePermutations(arr);
+        yield* orbitsUnder(uniquePerms, allRotations);
+    }
+
+    class TantrixItemSummary {
+        constructor(minRepr, classSize) {
+            this.minRepr = minRepr;
+            this.classSize = classSize;
+            this.numWires = this.minRepr.length / 2;
+            // we only need to check period n/2.
+            this.periodic = true;
+            for (let i = 0; i < this.numWires; i++) {
+                if (this.minRepr[i] !== this.minRepr[this.numWires+i]) {
+                    this.periodic = false;
+                    break;
+                }
+            }
+        }
+
+        numWires() { return this.minRepr.length / 2; }
+    }
+
+    function* necklacesMultisetColourless(freqs) {
+        const arr = frequenciesToArray(freqs);
+        const colorCount = freqs.length;
+        const uniquePerms = uniquePermutations(arr);
+        const necklaces = [...necklacesMultiset(freqs)].map(o => o["repr"]);
+        const g = function*(a) {
+            for (const b of allRotations(a)) {
+                for (const c of allColourRotations(b, colorCount)) {
+                    yield c;
+                }
+            }
+        }
+
+        const results = [];
+        const m = new StringifyMap();
+        for (const u of necklaces) {
+            const repr = minOnArrayOfArrays(g(u));
+            const val = m.get(repr);
+            const incr = val === undefined ? 1 : val+1;
+            m.set(repr, incr);
+        }
+        for (const [k,v] of m.entries()) {
+            yield {
+                "item": k,
+                "count": v,
+            };
+        }
+    }
+
+    function* tantrixItems(numWires) {
+        const freqs = [];
+        for (let i = 0; i < numWires; i++) {
+            freqs.push(2);
+        }
+        //TODO: chirality
+        for (const o of necklacesMultisetColourless(freqs)) {
+            yield new TantrixItemSummary(o["item"], o["count"]);
+        }
+    }
+  </script>
 </body>
 </html>
