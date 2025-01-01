@@ -52,15 +52,15 @@
 
 @font-face {
     font-family: Concourse;
-    font-weight: 700;
-    src: url("/assets/fonts/concourse_ot_6_bold.woff2");
+    font-weight: 600;
+    src: url("/assets/fonts/concourse_ot_6_semibold.woff2");
 }
 
 @font-face {
     font-family: Concourse;
-    font-weight: 700;
+    font-weight: 600;
     font-style: italic;
-    src: url("/assets/fonts/concourse_ot_6_bold_italic.woff2");
+    src: url("/assets/fonts/concourse_ot_6_semibold_italic.woff2");
 }
 
 @font-face {
@@ -75,10 +75,25 @@
     src: url("/assets/fonts/fira_mono_bold.woff2");
 }
 
+
+@font-face {
+    font-family: "Alcarin Tengwar";
+    font-weight: 400;
+    src: url("/assets/fonts/alcarin_tengwar_regular.woff2");
+}
+
+
+@font-face {
+    font-family: "Alcarin Tengwar";
+    font-weight: 800;
+    src: url("/assets/fonts/alcarin_tengwar_bold.woff2");
+}
+
 :root {
     --serif-font: EquityA, TimesNewRoman, Times New Roman, Times, Baskerville, Georgia, serif;
     --sans-serif-font: Concourse, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, Arial, sans-serif;
     --monospaced-font: "Fira Mono", ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+    --tengwar-font: "Alcarin Tengwar";
     --input-text-size: 15px;
     --body-text-size: 18px;
     --h2-text-size: 18px;
@@ -142,4 +157,9 @@ li {
 a.invisible-link:hover {
     /* opacity: 0.6; */
     background-color: var(--invisible-link-hover-color);
+}
+
+
+.tengwar {
+    font-family: var(--tengwar-font);
 }

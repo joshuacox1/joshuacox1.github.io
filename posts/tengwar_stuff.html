@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello, world!</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+  <link rel="stylesheet" type="text/css" href="/assets/style.css" />
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <link rel="icon" href="favicon.png">
+  <meta name="theme-color" content="">
+</head>
+<body>
+<style>
+
+.big-table {
+    width: auto;
+    border-spacing: 3px;
+    border-collapse: unset;
+}
+.big-table td, th {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.big-table td {
+    width: 56px;
+}
+
+.big-table th {
+    text-transform: none;
+    font-feature-settings: "case";
+    font-size: 18px;
+    padding: 4px 0;
+    font-weight: 600;
+}
+
+.big-cell {
+    padding-top: 4px;
+    padding-bottom: 5px;
+}
+
+.ipa {
+    font-size: 37px;
+    font-family: var(--tengwar-font);
+}
+
+.tengwar {
+    font-size: 140%;
+}
+
+.word {
+    font-size: 18px;
+    font-family: var(--sans-serif-font);
+}
+.vowel-single { background-color: #a9dfff; }
+.vowel-double { background-color: #65b7ff; }
+.consonant { background-color: #ffb8c5; }
+.empty { background-color: #e3e3e3; }
+.table-header {
+    background-color: #e3e3e3;
+    font-size: 20px !important;
+    padding: 9px 0 !important;
+}
+.nya { font-family: "Concourse", Arial, sans-serif; }
+
+</style>
+
+<div>
+    <h1>Tengwar stuff.</h1>
+    <!-- <p class="tengwar">The short brown fox.      </p>
+    <table>
+      <tr><th>Tengwar</th><th>IPA</th><th>Example</th></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+      <tr><td><span class="tengwar"></span></td><td>/b/</td><td><strong>b</strong>oat</td></tr>
+    </table> -->
+<table class="big-table">
+  <tr>
+    <th colspan="8" class="table-header">The 44 phonemes of English</th>
+  </tr>
+  <tr>
+    <th colspan="4" class="vowel-single">Single vowels</th>
+    <th colspan="4" class="vowel-double">Double vowels</th>
+  </tr>
+  <tr>
+    <td class="big-cell vowel-single"><div class="ipa"></div> <div class="word">p<strong>i</strong>ck</div></td>
+    <td class="big-cell vowel-single"><div class="ipa"></div><div class="word">n<strong>ee</strong>d</div></td>
+    <td class="big-cell vowel-single"><div class="ipa"></div> <div class="word">b<strong>oo</strong>k</div></td>
+    <td class="big-cell vowel-single"><div class="ipa"></div><div class="word">g<strong>oo</strong>se</div></td>
+    <td class="big-cell vowel-double"><div class="ipa"></div><div class="word">m<strong>ou</strong>th</div></td>
+    <td class="big-cell vowel-double"><div class="ipa"></div><div class="word">g<strong>oa</strong>t</div></td>
+    <td class="big-cell empty"></td>
+    <td class="big-cell empty"></td>
+  </tr>
+  <tr>
+    <td class="big-cell vowel-single"><div class="ipa"></div> <div class="word">ent<strong>er</strong></div></td>
+    <td class="big-cell vowel-single"><div class="ipa"></div><div class="word">n<strong>ur</strong>se</div></td>
+    <td class="big-cell vowel-single"><div class="ipa"></div> <div class="word">p<strong>o</strong>p</div></td>
+    <td class="big-cell vowel-single"><div class="ipa"></div><div class="word">s<strong>or</strong>t</div></td>
+    <td class="big-cell vowel-double"><div class="ipa"></div><div class="word">t<strong>ie</strong></div></td>
+    <td class="big-cell vowel-double"><div class="ipa"></div><div class="word">v<strong>ei</strong>n</div></td>
+    <td class="big-cell vowel-double"><div class="ipa"></div><div class="word">c<strong>oi</strong>n</div></td>
+    <td class="big-cell empty"></td>
+  </tr>
+  <tr>
+    <td class="big-cell vowel-single"><div class="ipa"></div> <div class="word">c<strong>a</strong>t</div></td>
+    <td class="big-cell vowel-single"><div class="ipa"></div><div class="word">b<strong>ar</strong>n</div></td>
+    <td class="big-cell vowel-single"><div class="ipa"></div> <div class="word">c<strong>u</strong>p</div></td>
+    <td class="big-cell vowel-single"><div class="ipa"></div> <div class="word">b<strong>e</strong>d</div></td>
+    <td class="big-cell vowel-double"><div class="ipa"></div><div class="word">f<strong>air</strong></div></td>
+    <td class="big-cell vowel-double"><div class="ipa"></div><div class="word">h<strong>ere</strong></div></td>
+    <td class="big-cell vowel-double"><div class="ipa"></div><div class="word">c<strong>ure</strong></div></td>
+    <td class="big-cell empty"></td>
+  </tr>
+  <tr>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>p</strong>in</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>f</strong>arm</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>t</strong>ime</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>th</strong>ink</div></td>
+    <td class="big-cell consonant"><div class="ipa">/</div> <div class="word"><strong>s</strong>un</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>sh</strong>op</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div><div class="word"><strong>ch</strong>in</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>k</strong>ing</div></td>
+  </tr>
+  <tr>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>b</strong>oat</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>v</strong>ine</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>d</strong>oor</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>th</strong>at</div></td>
+    <td class="big-cell consonant"><div class="ipa">/</div> <div class="word"><strong>z</strong>oo</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word">vi<strong>s</strong>ion</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div><div class="word"><strong>j</strong>ump</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>g</strong>ame</div></td>
+  </tr>
+  <tr>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>m</strong>an</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>w</strong>ind</div></td>
+    <td class="big-cell consonant"><div class="ipa">/</div> <div class="word"><strong>r</strong>est</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>n</strong>ame</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>l</strong>amp</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>y</strong>ear</div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word">si<strong>ng</strong></div></td>
+    <td class="big-cell consonant"><div class="ipa"></div> <div class="word"><strong>h</strong>ouse</div></td>
+  </tr>
+  <tr>
+    <th colspan="10" class="consonant">Consonants</th>
+  </tr>
+</table>
+
+<h2>Mapping English words to sequences of the 44 phonemes</h2>
+
+
+
+<p>Dictionary phonetics typically analyse British RP English as consisting of 44 phonemes, in the main: 24 consonants and 20 vowels (12 single, 8 double). Words are then transcribed as sequences of these phonemes, with a stress mark attached. Some compl</p>
+
+<ul>
+  <li>The short vowels in happ*y* and us*u*al, sometimes transcribed /i/ and /u/ respectively, are written identically /iː/ as /uː/.</li>
+  <li>Rare sounds occurring only in loanwords, such as Scottish /x/, Welsh /ɬ/, and the French nasal vowels /ã/ and /ɒ̃/, are not mapped.</li>
+  <li>The so-called &ldquo;vowels in free variation&rdquo; such as in hon*e*st and J*u*ly, sometimes transcribed /ᵻ/ and /ᵿ/ respectively, are written as /ɪ/ and /ʊ/.</li>
+  <li>The syllabic consonants (l, m, n) are notated as /əl/, /əm/, /ən/. (TODO: NOT SURE!)</li>
+  <li>Common words with strong and weak pronunciations are written *as spoken*. The two pronunciations of "the" depending on whether the next word starts with a consonant or a vowel are also written as spoken. The pronunciation of "have" in "have to" as "haf" is also respected. (Note that the former makes machine transcription non-trivial.)</li>
+  <li>Unaffected punctuation.</li>
+</ul>
+
+<h2>Mapping phoneme sequences to the Latin alphabet</h2>
+
+TODO.
+
+<h2>Mapping phoneme sequences to Tengwar</h2>
+
+<ul>
+  <li>The basic mapping from phonemes to Tengwar glyphs is given in the table.</li>
+  <li>Single vowels before a consonant phoneme are represented as their diacritic over the glyph for that consonant. Before another vowel or as the final phoneme of a word, they are written as presented.</li>
+  <li>The primary forms of the glyphs for S and Z (silme and essë) are used when the letter has no diacritic and is not the final letter of a word. Otherwise the inverted forms (silme nuquerna, essë nuquerna) are used. The word "is" is an exception to this rule: it is written with ordinary essë with a dot to the left.</li>
+  <li>If not decided earlier: syllabic consonants have no written vowel.</li>
+  <li>Special characters for "and", "of", "the", "of the". TODO: think about a/an.</li>
+  <li>TODO: take another look at double-vowel characters.</li>
+  <li>TODO: think about N overbar rules.</li>
+</ul>
+
+<h2>Complexities</h2>
+
+<ul>
+  <li>//</li>
+  <li>If a single vowel is followed by a consonant, the vowel&#8217;s diacritic is written over that consonant instead: for example, &ldquo;patch&rdquo; is not <span class="tengwar"></span> but <span class="tengwar"></span>.
+  <ul>
+    <li>The &ldquo;schwa&rdquo; vowel, which doesn't have a diacritic</li>
+  </ul>
+  </li>
+  <li><span class="tengwar"></span> and <span class="tengwar"></span> are used when no diacritics are present and the letter is not the final letter of the word. When there are diacritics or the letter occurs word-finally (and isn't covered by the flourish rule below), <span class="tengwar"></span> and <span class="tengwar"></span> are used instead. (The sole exception to this rule is the word &ldquo;is&rdquo;, which is often written <span class="tengwar"></span>.)</li>
+  <li>Unstressed -s/-z endings are indicated with a flourish diacritic (<span class="tengwar"></span>) rather than a written-out <span class="tengwar"></span> and <span class="tengwar"></span>. In particular:
+    <ul>
+      <li>-ps, -fs, -ts, -ths, -cs</li>
+      <li>-bz, -vz, -dz, -thz, -gz, -mz, -wz, -nz, -ngz</li>
+      <li>-siz, -shiz, -chiz, -ziz, -zhiz, -jiz</li>
+    </ul>
+    (Font support here is spotty. In the font Alcarin used here, the ára <span class="tengwar"></span> must be shortened to the telco <span class="tengwar"></span> for this diacritic to look reasonable (<span class="tengwar"></span>)).
+  </li>
+  <li>Certain common words or phrases have their own shorthand forms:
+    <ul>
+      <li>&ldquo;and&rdquo; &ndash; is normally <span class="tengwar"></span> but can be simply <span class="tengwar"></span></li>
+      <li>&ldquo;the&rdquo; &ndash; <span class="tengwar"></span></li>
+      <li>&ldquo;and the&rdquo; &ndash; <span class="tengwar"></span> or <span class="tengwar"></span></li>
+      <li>&ldquo;of&rdquo; &ndash; <span class="tengwar"></span></li>
+      <li>&ldquo;have&rdquo; &ndash; <span class="tengwar" style="font-feature-settings: 'ss06'"></span>, &ldquo;has&rdquo; &ndash; <span class="tengwar" style="font-feature-settings: 'ss06'"></span></li>
+      <li>&ldquo;of the&rdquo; &ndash; <span class="tengwar"></span></li>
+    </ul>
+  </li>
+  <li>Nasalised consonants are reduced to an overbar diacritic. For example, &ldquo;lamp&rdquo; is not <span class="tengwar"></span> but <span class="tengwar"></span>; &ldquo;lamp&rdquo; is not <span class="tengwar"></span> but <span class="tengwar"></span>. The nasal in particular is as follows:
+    <ul>
+      <li><span class="tengwar"></span> before <span class="tengwar"></span>, <span class="tengwar"></span></li>
+      <li><span class="tengwar"></span> before <span class="tengwar"></span>, <span class="tengwar"></span>, <span class="tengwar"></span>, <span class="tengwar"></span>, <span class="tengwar"></span>, <span class="tengwar"></span>, <span class="tengwar"></span>, <span class="tengwar"></span>, <span class="tengwar"></span>, <span class="tengwar"></span></li>
+      <li><span class="tengwar"></span> before <span class="tengwar"></span>, <span class="tengwar"></span>.</li>
+    </ul>
+  </li>
+</ul>
+
+<ul class="tengwar" style="font-size: 28px">
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+<p>‘I should like here to state that I have no intention of becoming either a reformer of pronunciation or a judge who decides what pronunciations are “good” and what are “bad”. The proper function of the phonetician is to observe and record accurately, to be, in fact, a kind of living phonograph. [It may be as well to add that I am not one of those who believe in the desirability or the feasibility of setting up any one form of pronunciation as a standard for the English-speaking world.]’</p>
+
+<p class="tengwar" style="font-size: 28px">                                                 </p>
+
+</body>

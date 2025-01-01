@@ -1,0 +1,363 @@
+---
+title: English spelling reform
+layout: default
+categories: language
+---
+
+<style>
+/* Currently getting both sans serif and serif */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
+
+.qsf {
+  font-family: "Source Serif 4", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 92%;
+}
+
+.qs {
+  font-family: "Source Sans 3", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 92%;
+}
+
+tr.border-below {
+    border-bottom: 1.5px solid black;
+}
+</style>
+
+<p>The idea is to map phonemic British RP pronunciations from a reasonable dictionary, ignoring stress and aspiration, to a more natural set of characters.</p>
+
+<script>
+const button = document.getElementById("north-wind-button");
+button.aðEventListener("click", () => {
+    const normal = document.getElementById("north-wind");
+    const trans = document.getElementById("north-wind-trans");
+    if (normal.getAttribute("hiðen") === "") {
+        normal.removeAttribute("hiðen", "");
+        trans.setAttribute("hiðen", "");
+    } else {
+        normal.setAttribute("hiðen", "");
+        trans.removeAttribute("hiðen", "");
+    }
+});
+</script>
+
+<h2>Vowels</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">IPA</th>
+<th style="text-align:center">Vowel</th>
+<th style="text-align:center">Letters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">/æ/</td>
+<td style="text-align:center"><strong>a</strong>nt</td>
+<td style="text-align:center" class="qs"><strong>a</strong>nt</td>
+</tr>
+<tr>
+<td style="text-align:center">/ʌ/</td>
+<td style="text-align:center">c<strong>u</strong>p</td>
+<td style="text-align:center" class="qs">c<strong>ă</strong>p</td>
+</tr>
+<tr>
+<td style="text-align:center">/e/</td>
+<td style="text-align:center">b<strong>e</strong>ll</td>
+<td style="text-align:center" class="qs">b<strong>e</strong>l</td>
+</tr>
+<tr>
+<td style="text-align:center">/ɪ/</td>
+<td style="text-align:center">k<strong>i</strong>t</td>
+<td style="text-align:center" class="qs">c<strong>i</strong>t</td>
+</tr>
+<tr>
+<td style="text-align:center">/ɒ/</td>
+<td style="text-align:center">l<strong>o</strong>t</td>
+<td style="text-align:center" class="qs">l<strong>o</strong>t</td>
+</tr>
+<tr>
+<td style="text-align:center">/ʊ/</td>
+<td style="text-align:center">b<strong>oo</strong>k</td>
+<td style="text-align:center" class="qs">b<strong>u</strong>c</td>
+</tr>
+<tr class="border-below">
+<td style="text-align:center">/ə/</td>
+<td style="text-align:center">alph<strong>a</strong></td>
+<td style="text-align:center" class="qs">alf<strong>ə</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">/ɑː/</td>
+<td style="text-align:center">b<strong>ar</strong>n</td>
+<td style="text-align:center" class="qs">b<strong>aa</strong>n</td>
+</tr>
+<tr>
+<td style="text-align:center">/iː/</td>
+<td style="text-align:center">fl<strong>ee</strong>ce</td>
+<td style="text-align:center" class="qs">fl<strong>ii</strong>s</td>
+</tr>
+<tr>
+<td style="text-align:center">/ɔː/</td>
+<td style="text-align:center">s<strong>aw</strong></td>
+<td style="text-align:center" class="qs">s<strong>oo</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">/uː/</td>
+<td style="text-align:center">g<strong>oo</strong>se</td>
+<td style="text-align:center" class="qs">g<strong>uu</strong>s</td>
+</tr>
+<tr class="border-below">
+<td style="text-align:center">/ɜː/</td>
+<td style="text-align:center">n<strong>ur</strong>se</td>
+<td style="text-align:center" class="qs">n<strong>əə</strong>s</td>
+</tr>
+<tr>
+<td style="text-align:center">/i/</td>
+<td style="text-align:center">happ<strong>y</strong></td>
+<td style="text-align:center" class="qs">hap<strong>í</strong></td>
+</tr>
+<tr class="border-below">
+<td style="text-align:center">/u/</td>
+<td style="text-align:center">ann<strong>u</strong>al</td>
+<td style="text-align:center" class="qs">any<strong>ú</strong>əl</td>
+</tr>
+<tr>
+<td style="text-align:center">/aɪ/</td>
+<td style="text-align:center">s<strong>ig</strong>n</td>
+<td style="text-align:center" class="qs">s<strong>ai</strong>n</td>
+</tr>
+<tr>
+<td style="text-align:center">/aʊ/</td>
+<td style="text-align:center">m<strong>ou</strong>se</td>
+<td style="text-align:center" class="qs">m<strong>au</strong>s</td>
+</tr>
+<tr>
+<td style="text-align:center">/eɪ/</td>
+<td style="text-align:center">w<strong>eigh</strong></td>
+<td style="text-align:center" class="qs">w<strong>ei</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">/eə/</td>
+<td style="text-align:center">f<strong>air</strong></td>
+<td style="text-align:center" class="qs">f<strong>eə</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">/ɪə/</td>
+<td style="text-align:center">h<strong>ere</strong></td>
+<td style="text-align:center" class="qs">h<strong>iə</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">/ɔɪ/</td>
+<td style="text-align:center">v<strong>oi</strong>ce</td>
+<td style="text-align:center" class="qs">v<strong>oi</strong>s</td>
+</tr>
+<tr>
+<td style="text-align:center">/ʊə/</td>
+<td style="text-align:center">c<strong>ure</strong></td>
+<td style="text-align:center" class="qs">cy<strong>uə</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">/əʊ/</td>
+<td style="text-align:center">g<strong>oa</strong>t</td>
+<td style="text-align:center" class="qs">g<strong>əu</strong>t</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+  <li>The syllabic consonants /ᵊl/, /ᵊm/, /ᵊn/ are written <span class="qs">əl</span>, <span class="qs">əm</span>, <span class="qs">ən</span>.</li>
+  <li>Linking Rs /◌ʳ/ are not represented.</li>
+</ul>
+
+<h2>Consonants</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">IPA</th>
+<th style="text-align:center">Sound</th>
+<th style="text-align:center">Letters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">/b/</td>
+<td style="text-align:center"><strong>b</strong>ed</td>
+<td style="text-align:center" class="qs"><strong>b</strong>ed</td>
+</tr>
+<tr>
+<td style="text-align:center">/k/</td>
+<td style="text-align:center"><strong>c</strong>ap</td>
+<td style="text-align:center" class="qs"><strong>c</strong>ap</td>
+</tr>
+<tr>
+<td style="text-align:center">/tʃ/</td>
+<td style="text-align:center"><strong>ch</strong>eck</td>
+<td style="text-align:center" class="qs"><strong>ć</strong>ec</td>
+</tr>
+<tr>
+<td style="text-align:center">/d/</td>
+<td style="text-align:center"><strong>d</strong>uck</td>
+<td style="text-align:center" class="qs"><strong>d</strong>ăc</td>
+</tr>
+<tr>
+<td style="text-align:center">/ð/</td>
+<td style="text-align:center"><strong>th</strong>is</td>
+<td style="text-align:center" class="qs"><strong>ḍ</strong>is</td>
+</tr>
+<tr>
+<td style="text-align:center">/f/</td>
+<td style="text-align:center"><strong>f</strong>oil</td>
+<td style="text-align:center" class="qs"><strong>f</strong>oiəl</td>
+</tr>
+<tr>
+<td style="text-align:center">/g/</td>
+<td style="text-align:center"><strong>g</strong>ain</td>
+<td style="text-align:center" class="qs"><strong>g</strong>ein</td>
+</tr>
+<tr>
+<td style="text-align:center">/h/</td>
+<td style="text-align:center"><strong>h</strong>ouse</td>
+<td style="text-align:center" class="qs"><strong>h</strong>aus</td>
+</tr>
+<tr>
+<td style="text-align:center">/dʒ/</td>
+<td style="text-align:center"><strong>j</strong>oke</td>
+<td style="text-align:center" class="qs"><strong>j</strong>əuc</td>
+</tr>
+<tr>
+<td style="text-align:center">/l/</td>
+<td style="text-align:center"><strong>l</strong>imp</td>
+<td style="text-align:center" class="qs"><strong>l</strong>imp</td>
+</tr>
+<tr>
+<td style="text-align:center">/m/</td>
+<td style="text-align:center"><strong>m</strong>aze</td>
+<td style="text-align:center" class="qs"><strong>m</strong>eiz</td>
+</tr>
+<tr>
+<td style="text-align:center">/n/</td>
+<td style="text-align:center"><strong>n</strong>ight</td>
+<td style="text-align:center" class="qs"><strong>n</strong>ait</td>
+</tr>
+<tr>
+<td style="text-align:center">/ŋ/</td>
+<td style="text-align:center">ki<strong>ng</strong></td>
+<td style="text-align:center" class="qs">ci<strong>ṇ</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">/p/</td>
+<td style="text-align:center"><strong>p</strong>ink</td>
+<td style="text-align:center" class="qs"><strong>p</strong>iṇc</td>
+</tr>
+<tr>
+<td style="text-align:center">/r/</td>
+<td style="text-align:center"><strong>r</strong>un</td>
+<td style="text-align:center" class="qs"><strong>r</strong>ăn</td>
+</tr>
+<tr>
+<td style="text-align:center">/s/</td>
+<td style="text-align:center"><strong>s</strong>ail</td>
+<td style="text-align:center" class="qs"><strong>s</strong>eiəl</td>
+</tr>
+<tr>
+<td style="text-align:center">/ʃ/</td>
+<td style="text-align:center"><strong>sh</strong>ip</td>
+<td style="text-align:center" class="qs"><strong>ś</strong>ip</td>
+</tr>
+<tr>
+<td style="text-align:center">/t/</td>
+<td style="text-align:center"><strong>t</strong>op</td>
+<td style="text-align:center" class="qs"><strong>t</strong>op</td>
+</tr>
+<tr>
+<td style="text-align:center">/θ/</td>
+<td style="text-align:center"><strong>th</strong>in</td>
+<td style="text-align:center" class="qs"><strong>ṭ</strong>in</td>
+</tr>
+<tr>
+<td style="text-align:center">/v/</td>
+<td style="text-align:center"><strong>v</strong>iew</td>
+<td style="text-align:center" class="qs"><strong>v</strong>yuu</td>
+</tr>
+<tr>
+<td style="text-align:center">/w/</td>
+<td style="text-align:center"><strong>w</strong>alk</td>
+<td style="text-align:center" class="qs"><strong>w</strong>ooc</td>
+</tr>
+<tr>
+<td style="text-align:center">/j/</td>
+<td style="text-align:center"><strong>y</strong>es</td>
+<td style="text-align:center" class="qs"><strong>y</strong>es</td>
+</tr>
+<tr>
+<td style="text-align:center">/z/</td>
+<td style="text-align:center"><strong>z</strong>ero</td>
+<td style="text-align:center" class="qs"><strong>z</strong>iərəu</td>
+</tr>
+<tr>
+<td style="text-align:center">/ʒ/</td>
+<td style="text-align:center">mea<strong>s</strong>ure</td>
+<td style="text-align:center" class="qs">me<strong>ź</strong>ə</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Alphabet</h2>
+
+<table>
+  <tr>
+    <td><span class="qs">A</span></td><td><span class="qs">Ă</span></td><td><span class="qs">B</span></td><td><span class="qs">C</span></td>
+    <td><span class="qs">Ć</span></td><td><span class="qs">D</span></td>
+  </tr>
+  <tr>
+    <td><span class="qs">Ḍ</span></td><td><span class="qs">E</span></td><td><span class="qs">Ə</span></td><td><span class="qs">F</span></td>
+    <td><span class="qs">G</span></td><td><span class="qs">H</span></td>
+  </tr>
+  <tr>
+    <td><span class="qs">I</span></td><td><span class="qs">J</span></td><td><span class="qs">L</span></td><td><span class="qs">M</span></td>
+    <td><span class="qs">N</span></td><td><span class="qs">Ṇ</span></td>
+  </tr>
+  <tr>
+    <td><span class="qs">O</span></td><td><span class="qs">P</span></td><td><span class="qs">R</span></td><td><span class="qs">S</span></td>
+    <td><span class="qs">Ś</span></td><td><span class="qs">T</span></td>
+  </tr>
+  <tr>
+    <td><span class="qs">Ṭ</span></td><td><span class="qs">U</span></td><td><span class="qs">V</span></td><td><span class="qs">W</span></td>
+    <td><span class="qs">Y</span></td><td><span class="qs">Z</span></td>
+  </tr>
+  <tr>
+    <td><span class="qs">Ź</span></td>
+  </tr>
+</table>
+
+<p>Lastly:</p>
+
+<ul>
+<li>The word &ldquo;the&rdquo; is written <span class="qs">ḍə</span> before consonants and <span class="qs">ḍí</span> before vowels, reflecting the pronunciation. Other words like &ldquo;to&rdquo; and &ldquo;into&rdquo; are treated similarly.
+</li>
+<li>Existing spelling conventions such as capitalised &ldquo;I&rdquo;, possessive &ldquo;&#8217;s&rdquo;, and apostrophes in contractions such as &ldquo;I&#8217;ve&rdquo; and &ldquo;she&#8217;d&rdquo; are ignored. Rules around capitalisation and other punctuation (including hyphens) remain unchanged.</li>
+</ul>
+
+
+
+<h2>Examples</h2>
+
+<blockquote>
+<h3>The North Wind and the Sun</h3>
+<p>The North Wind and the Sun were disputing which was the stronger, when a traveler came along wrapped in a warm cloak. They agreed that the one who first succeeded in making the traveler take his cloak off should be considered stronger than the other. Then the North Wind blew as hard as he could, but the more he blew the more closely did the traveler fold his cloak around him; and at last the North Wind gave up the attempt. Then the Sun shone out warmly, and immediately the traveler took off his cloak. And so the North Wind was obliged to confess that the Sun was the stronger of the two.</p>
+</blockquote>
+<blockquote>
+<h3>Ḍə Nooṭ Wind ənd ḍə Săn</h3>
+<p class="qs">Ḍə Nooṭ Wind and ḍə Săn wə dispyuutiṇ wić wəz ḍə stroṇgə, wen ə travələ ceim əloṇ rapt in ə woom cləuc. Ḍei əgriid ḍət ḍə wăn huu fəəst săcsiidid in meiciṇ ḍə travələ teic hiz cləuc of shud bii cənsidəd stroṇgə ḍən ḍí ăḍə. Ḍen ḍə Nooṭ Wind bluu əz haad əz hii cud, băt ḍə moo hii bluu ḍə moo cləuslí did ḍə travələ fəuld hiz cləuc əaund him; and ət laast ḍə Nooṭ Wind geiv ăp ḍí ətempt. Ḍen ḍə Săn śon aut woomlí, ənd imiidiətlí ḍə travələ tuc of hiz cləuc. Ənd səu ḍə Nooṭ Wind wəz əblaijd tə cənfes ḍət ḍə Săn wəz ḍə stroṇgə əv ḍə tuu.</p>
+</blockquote>
+<!-- <h2>Practical considerations</h2>
+<p>No new glyphs are introduced. The accented characters required are <strong>Áá Éé Íí Óó Ẃẃ</strong>, all of which can be found on existing Welsh keyboard layouts and in many popular fonts.</p>
+<p>Capitalisation and punctuation standards remain unchanged.</p>
+<p>Given the prior existence of a phonemic dictionary (the OED) and the regular nature of the spelling, this proposal is highly amenable to automation, with a simple dictionary implementation able to handle all but a small number of homographs such as &ldquo;lead&rdquo;, &ldquo;close&rdquo; and &ldquo;wind&rdquo;.</p>
+
+<p>The alphabet is simply <strong>a</strong>bcd<strong>e</strong>fgh<strong>i</strong>jlmn<strong>o</strong>prst<strong>u</strong>v<strong>w</strong>yz.</p> -->
