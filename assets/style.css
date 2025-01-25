@@ -162,4 +162,5 @@ a.invisible-link:hover {
 
 .tengwar {
     font-family: var(--tengwar-font);
+    font-size: 130%;
 }
