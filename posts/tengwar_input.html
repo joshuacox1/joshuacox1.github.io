@@ -17,10 +17,10 @@
         width: 800px; */
         padding: 50px;
     }
-    #tengwar-text {
+    #tengwar-input {
         resize: none;
         margin: auto;
-        width: 800px;
+        width: 95%;
         height: 300px;
         font-size: 34px;
     }
@@ -221,7 +221,8 @@
             dget("b-hook-u").innerHTML   = "<span class=\"gr\"></span>";
             dget("b-hat").innerHTML      = "<span class=\"gr\"></span>";
             dget("b-breve").innerHTML    = "<span class=\"gr\"></span>";
-            dget("b-tilde").innerHTML    = "<span class=\"gr\"></span>";
+            dget("b-tilde").innerHTML    = "<span class=\"gr\"></span>";
+            dget("b-botring").innerHTML  = "<span class=\"gr\"></span>";
 
             shiftState = false;
         } else {
@@ -297,26 +298,24 @@
             dget("b-topbar").innerHTML   = "&nbsp;";
             dget("b-topdots3").innerHTML = "<span class=\"gr\"></span>";
             dget("b-acute").innerHTML    = "<span class=\"gr\"></span>";
-            dget("b-topdot1").innerHTML  = "<span class=\"gr\"></span>";
+            dget("b-topdot1").innerHTML  = "&nbsp;";
             dget("b-hook-o").innerHTML   = "<span class=\"gr\"></span>";
             dget("b-topwave").innerHTML  = "&nbsp;";
             dget("b-botbar").innerHTML   = "&nbsp;";
-            dget("b-topdots2").innerHTML = "<span class=\"gr\"></span>";
-            dget("b-botdot1").innerHTML  = "<span class=\"gr\"></span>";
-            dget("b-botdots2").innerHTML = "<span class=\"gr\"></span>";
+            dget("b-topdots2").innerHTML = "&nbsp;";
+            dget("b-botdot1").innerHTML  = "<span class=\"gr\"></span>";
+            dget("b-botdots2").innerHTML = "<span class=\"gr\"></span>";
             dget("b-hook-u").innerHTML   = "<span class=\"gr\"></span>";
-            dget("b-hat").innerHTML      = "&nbsp;";
+            dget("b-hat").innerHTML      = "<span class=\"gr\"></span>";
             dget("b-breve").innerHTML    = "<span class=\"gr\"></span>";
-            dget("b-tilde").innerHTML    = "<span class=\"gr\"></span>";
-
+            dget("b-tilde").innerHTML    = "&nbsp;";
+            dget("b-botring").innerHTML =  "<span class=\"gr\"></span>";
             shiftState = true;
         }
         console.log(shiftState);
     }
   </script>
-  <textarea id="tengwar-input" class="tengwar" autocomplete="on" autocorrect="off" placeholder="" spellcheck="false"></textarea>
-  <p>tesjtoi joidja</p>
-
+  <textarea id="tengwar-input" class="tengwar" autocomplete="on" autocorrect="off" placeholder="   " spellcheck="false"></textarea>
 
   <table class="tengwar tengwar-chars-c" id="tengwar-chars">
     <colgroup>
@@ -339,116 +338,118 @@
       <!-- meta -->
       <!-- <col style="width: 15px"><col style="width: 15px"><col style="width: 15px"> -->
       <!-- <col style="width: 15px"><col style="width: 15px"><col style="width: 15px"> -->
-      <col style="width: 14px"><col style="width: 14px"><col style="width: 14px">
-      <col style="width: 14px"><col style="width: 14px"><col style="width: 14px">
-      <col style="width: 14px"><col style="width: 14px"><col style="width: 14px">
-      <col style="width: 14px"><col style="width: 14px"><col style="width: 14px">
-      <col style="width: 14px"><col style="width: 14px"><col style="width: 14px">
-      <col style="width: 14px"><col style="width: 14px"><col style="width: 14px">
-      <col style="width: 14px"><col style="width: 14px"><col style="width: 14px">
-      <col style="width: 14px"><col style="width: 14px"><col style="width: 14px">
-      <col style="width: 14px"><col style="width: 14px">
-      <col style="width: 14px"><col style="width: 14px">
-      <col style="width: 14px"><col style="width: 14px">
-      <col style="width: 14px"><col style="width: 14px">
-      <col style="width: 14px"><col style="width: 14px"><col style="width: 14px">
-      <col style="width: 14px"><col style="width: 14px"><col style="width: 14px">
-      <col style="width: 14px"><col style="width: 14px"><col style="width: 14px">
+      <col style="width: 34px">
+      <col style="width: 34px">
+      <col style="width: 34px">
+      <col style="width: 34px">
+      <col style="width: 34px">
+      <col style="width: 34px">
+      <col style="width: 34px">
+      <col style="width: 34px">
+      <col style="width: 34px">
+      <col style="width: 34px">
+      <col style="width: 34px">
+      <col style="width: 34px">
+      <col style="width: 34px">
+      <col style="width: 34px">
+      <col style="width: 34px">
+      <col style="width: 34px">
     </colgroup>
     <tr>
-      <td colspan="3" class="cell-top cell-left">            <button id="b-tinco"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-parma"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-calma"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-quessë"    type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-rómen"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-arda"      type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-lambe"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-alda"      type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="2">            <button id="b-sarince"   type="button" class="tengwar b1 bg-thtr" onclick="d('')"></button></td>
-      <td colspan="2">            <button id="b-topdots3"  type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="2">            <button id="b-acute"     type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="2">            <button id="b-hat"       type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="3">            <button id="b-num-7"     type="button" class="tengwar b1 bg-num"   onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-num-8"     type="button" class="tengwar b1 bg-num"   onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-num-9"     type="button" class="tengwar b1 bg-num"   onclick="d('')"></button></td>
+      <td class="cell-top cell-left">            <button id="b-tinco"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-parma"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-calma"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-quessë"    type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-númen"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-malta"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-ñoldo"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-ngwalmë"   type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-sarince"   type="button" class="tengwar b1 bg-thtr" onclick="d('')"></button></td>
+      <td>            <button id="b-topwave"   type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td>            <button id="b-tilde"     type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td>            <button id="b-topquot"   type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
+      <td>            <button id="b-botquot"   type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
+      <!-- <td rowspan="5"></td> -->
+      <td>            <button id="b-num-7"     type="button" class="tengwar b1 bg-num"   onclick="d('')"></button></td>
+      <td>            <button id="b-num-8"     type="button" class="tengwar b1 bg-num"   onclick="d('')"></button></td>
+      <td>            <button id="b-num-9"     type="button" class="tengwar b1 bg-num"   onclick="d('')"></button></td>
     </tr>
     <tr>
-      <td colspan="3">            <button id="b-ando"      type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-umbar"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-anga"      type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-ungwë"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-silme"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-silme-nuq" type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-essë"      type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-essë-nuq"  type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="2">            <button id="b-topbar"    type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="2">            <button id="b-topdots2"  type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="2">            <button id="b-botdots2"  type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="2">            <button id="b-tilde"     type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="3">            <button id="b-num-4"     type="button" class="tengwar b1 bg-num" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-num-5"     type="button" class="tengwar b1 bg-num" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-num-6"     type="button" class="tengwar b1 bg-num" onclick="d('')"></button></td>
+      <td>            <button id="b-ando"      type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-umbar"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-anga"      type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-ungwë"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-órë"       type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-vala"      type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-anna"      type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-vilya"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-topbar"    type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td>            <button id="b-botbar"    type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td>            <button id="b-breve"     type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td>            <button id="b-p-tilde"   type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
+      <td>            <button id="b-p-tilde2"  type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
+      <td>            <button id="b-num-4"     type="button" class="tengwar b1 bg-num" onclick="d('')"></button></td>
+      <td>            <button id="b-num-5"     type="button" class="tengwar b1 bg-num" onclick="d('')"></button></td>
+      <td>            <button id="b-num-6"     type="button" class="tengwar b1 bg-num" onclick="d('')"></button></td>
     </tr>
     <tr>
-      <td colspan="3">            <button id="b-thúlë"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-formen"    type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-harma"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-hwesta"    type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-hyarmen"   type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-hwesta-sn" type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-yanta"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-úrë"       type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="2">            <button id="b-topwave"   type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="2">            <button id="b-topdot1"   type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="2">            <button id="b-botdot1"   type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="2">            <button id="b-breve"     type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="3">            <button id="b-num-1"     type="button" class="tengwar b1 bg-num" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-num-2"     type="button" class="tengwar b1 bg-num" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-num-3"     type="button" class="tengwar b1 bg-num" onclick="d('')"></button></td>
+      <td>            <button id="b-thúlë"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-formen"    type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-harma"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-hwesta"    type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-rómen"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-arda"      type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-lambe"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-alda"      type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-acute"     type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td>            <button id="b-hook-o"    type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td>            <button id="b-hook-u"    type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td>            <button id="b-p-dot3"    type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
+      <td>            <button id="b-exclam"    type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
+      <td>            <button id="b-num-1"     type="button" class="tengwar b1 bg-num" onclick="d('')"></button></td>
+      <td>            <button id="b-num-2"     type="button" class="tengwar b1 bg-num" onclick="d('')"></button></td>
+      <td>            <button id="b-num-3"     type="button" class="tengwar b1 bg-num" onclick="d('')"></button></td>
     </tr>
     <tr>
-      <td colspan="3">            <button id="b-anto"      type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-ampa"      type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-anca"      type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-unquë"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-osse"      type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-halla"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-telco"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-ára"       type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
-      <td colspan="2">            <button id="b-botbar"    type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="2">            <button id="b-hook-o"    type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="2">            <button id="b-hook-u"    type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="2">            <button id="b-botring"   type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
-      <td colspan="3">            <button id="b-num-0"     type="button" class="tengwar b1 bg-num"   onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-num-10"    type="button" class="tengwar b1 bg-num"   onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-num-11"    type="button" class="tengwar b1 bg-num"   onclick="d('')"></button></td>
+      <td>            <button id="b-anto"      type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-ampa"      type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-anca"      type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-unquë"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-silme"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-silme-nuq" type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-essë"      type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-essë-nuq"  type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-topdots3"  type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td>            <button id="b-topdots2"  type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td>            <button id="b-topdot1"   type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td>            <button id="b-p-dot2"    type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
+      <td>            <button id="b-question"  type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
+      <td>            <button id="b-num-0"     type="button" class="tengwar b1 bg-num"   onclick="d('')"></button></td>
+      <td>            <button id="b-num-10"    type="button" class="tengwar b1 bg-num"   onclick="d('')"></button></td>
+      <td>            <button id="b-num-11"    type="button" class="tengwar b1 bg-num"   onclick="d('')"></button></td>
     </tr>
     <tr>
-      <td colspan="3">            <button id="b-númen"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-malta"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-ñoldo"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-ngwalmë"   type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="2">            <button id="b-p-dot1"    type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
-      <td colspan="2">            <button id="b-p-dot2"    type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
-      <td colspan="2">            <button id="b-p-dot3"    type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
-      <td colspan="2">            <button id="b-paren"     type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
-      <td colspan="2">            <button id="b-topquot"   type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
-      <td colspan="2">            <button id="b-botquot"   type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
-      <td colspan="2">            <button id="b-exclam"    type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-question"  type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-p-tilde"   type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-p-tilde2"  type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
-      <td colspan="6">            <button id="b-backsp"    type="button" class="tengwar b1 bg-meta"  onclick="shiftNum()"></button></td>
+      <td>            <button id="b-hyarmen"   type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-hwesta-sn" type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-yanta"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-úrë"       type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
+      <td>            <button id="b-osse"      type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-halla"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-telco"     type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-ára"       type="button" class="tengwar b1 bg-tgwr"  onclick="d('')"></button></td>
+      <td>            <button id="b-hat"       type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td>            <button id="b-botdots2"  type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td>            <button id="b-botdot1"   type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td>            <button id="b-p-dot1"    type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
+      <td>            <button id="b-paren"     type="button" class="tengwar b1 bg-punct" onclick="d('')"></button></td>
+      <td>            <button id="b-botring"   type="button" class="tengwar b1 bg-thtr" onclick="d('')"><span class="gr"></span></button></td>
+      <td colspan="2">            <button id="b-backsp"    type="button" class="tengwar b1 bg-meta"  onclick="shiftNum()"></button></td>
     </tr>
     <tr>
-      <td colspan="3">            <button id="b-órë"       type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-vala"      type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-anna"      type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="3">            <button id="b-vilya"     type="button" class="tengwar b1 bg-tgwr" onclick="d('')"></button></td>
-      <td colspan="9">            <button id="b-spaceb"    type="button" class="tengwar b1 bg-meta" onclick="d(' ')"></button></td>
-      <td colspan="8">            <button id="b-shift"     type="button" class="tengwar b1 bg-meta" onclick="shiftToggle()"></button></td>
-      <td colspan="6">            <button id="b-backsp"    type="button" class="tengwar b1 bg-meta"  onclick="d('')"></button></td>
-      <td colspan="6">            <button id="b-return"    type="button" class="tengwar b1 bg-meta" onclick="d('')"></button></td>
+      <td colspan="4">            <button id="b-shift"     type="button" class="tengwar b1 bg-meta" onclick="shiftToggle()"></button></td>
+      <td colspan="4">            <button id="b-spaceb"    type="button" class="tengwar b1 bg-meta" onclick="d(' ')"></button></td>
+      <td colspan="4">            <button id="b-backsp"    type="button" class="tengwar b1 bg-meta"  onclick="d('')"></button></td>
+      <td colspan="4">            <button id="b-return"    type="button" class="tengwar b1 bg-meta" onclick="d('')"></button></td>
     </tr>
   </table>
 
