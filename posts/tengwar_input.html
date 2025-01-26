@@ -105,9 +105,23 @@
     let numDotState = false;
     let shiftState = false;
 
-    const shiftNum = () => {
-        if (!shiftState) {
-            if (numDotState) {
+    const drawNums = () => {
+        if (shiftState) {
+            // num
+            dget("b-num-0").innerHTML  = "";
+            dget("b-num-1").innerHTML  = "&nbsp;";
+            dget("b-num-2").innerHTML  = "&nbsp;";
+            dget("b-num-3").innerHTML  = "&nbsp;";
+            dget("b-num-4").innerHTML  = "&nbsp;";
+            dget("b-num-5").innerHTML  = "&nbsp;";
+            dget("b-num-6").innerHTML  = "&nbsp;";
+            dget("b-num-7").innerHTML  = "&nbsp;";
+            dget("b-num-8").innerHTML  = "&nbsp;";
+            dget("b-num-9").innerHTML  = "&nbsp;";
+            dget("b-num-10").innerHTML = "&nbsp;";
+            dget("b-num-11").innerHTML = "&nbsp;";
+        } else {
+             if (!numDotState) {
                 // TODO: make this compatible with shift/unshift.
                 // Back to normal.
                 dget("b-num-0").innerHTML  = "";
@@ -120,7 +134,6 @@
                 dget("b-num-7").innerHTML  = "";
                 dget("b-num-8").innerHTML  = "";
                 dget("b-num-9").innerHTML  = "";
-                numDotState = false;
             } else {
                 dget("b-num-0").innerHTML  = "";
                 dget("b-num-1").innerHTML  = "";
@@ -132,9 +145,15 @@
                 dget("b-num-7").innerHTML  = "";
                 dget("b-num-8").innerHTML  = "";
                 dget("b-num-9").innerHTML  = "";
-                numDotState = true;
             }
+            dget("b-num-10").innerHTML = "";
+            dget("b-num-11").innerHTML = "";
         }
+    }
+
+    const shiftNum = () => {
+        numDotState = !numDotState;
+        drawNums();
     }
 
     const shiftToggle = () => {
@@ -193,19 +212,6 @@
             dget("b-exclam").innerHTML   = "";
             dget("b-topquot").innerHTML  = "";
             dget("b-botquot").innerHTML  = "";
-            // num
-            dget("b-num-0").innerHTML  = "";
-            dget("b-num-1").innerHTML  = "";
-            dget("b-num-2").innerHTML  = "";
-            dget("b-num-3").innerHTML  = "";
-            dget("b-num-4").innerHTML  = "";
-            dget("b-num-5").innerHTML  = "";
-            dget("b-num-6").innerHTML  = "";
-            dget("b-num-7").innerHTML  = "";
-            dget("b-num-8").innerHTML  = "";
-            dget("b-num-9").innerHTML  = "";
-            dget("b-num-10").innerHTML = "";
-            dget("b-num-11").innerHTML = "";
             // tehtar
             dget("b-sarince").innerHTML  = ""; // not a tehtar...
             dget("b-topbar").innerHTML   = "<span class=\"gr\"></span>";
@@ -280,19 +286,6 @@
             dget("b-exclam").innerHTML   = "";
             dget("b-topquot").innerHTML  = "&nbsp;";
             dget("b-botquot").innerHTML  = "&nbsp;";
-            // num
-            dget("b-num-0").innerHTML  = "";
-            dget("b-num-1").innerHTML  = "&nbsp;";
-            dget("b-num-2").innerHTML  = "&nbsp;";
-            dget("b-num-3").innerHTML  = "&nbsp;";
-            dget("b-num-4").innerHTML  = "&nbsp;";
-            dget("b-num-5").innerHTML  = "&nbsp;";
-            dget("b-num-6").innerHTML  = "&nbsp;";
-            dget("b-num-7").innerHTML  = "&nbsp;";
-            dget("b-num-8").innerHTML  = "&nbsp;";
-            dget("b-num-9").innerHTML  = "&nbsp;";
-            dget("b-num-10").innerHTML = "&nbsp;";
-            dget("b-num-11").innerHTML = "&nbsp;";
             // marks
             dget("b-sarince").innerHTML  = "<span class=\"gr\"></span>"; // not a tehtar...
             dget("b-topbar").innerHTML   = "&nbsp;";
@@ -312,7 +305,7 @@
             dget("b-botring").innerHTML =  "<span class=\"gr\"></span>";
             shiftState = true;
         }
-        console.log(shiftState);
+        drawNums();
     }
   </script>
   <textarea id="tengwar-input" class="tengwar" autocomplete="on" autocorrect="off" placeholder="   " spellcheck="false"></textarea>
