@@ -84,7 +84,10 @@
         border-right: 3px solid black;
     }
 
+    .pressed {
+        background-color: #bbb;
 
+    }
 
     .b1:hover {
         background-color: #bbb;
@@ -95,29 +98,10 @@
     }
 
   </style>
-  <textarea id="tengwar-input" class="tengwar" autocomplete="on" autocorrect="off" placeholder="            " spellcheck="false"></textarea>
+  <textarea id="tengwar-input" class="tengwar" autocomplete="on" autocorrect="off" placeholder="            " spellcheck="false"></textarea>
 
   <table class="tengwar tengwar-chars-c" id="tengwar-chars">
     <colgroup>
-      <!-- tgwr -->
-      <!-- <col style="width: 15px"><col style="width: 15px"><col style="width: 15px">
-      <col style="width: 15px"><col style="width: 15px"><col style="width: 15px">
-      <col style="width: 15px"><col style="width: 15px"><col style="width: 15px">
-      <col style="width: 15px"><col style="width: 15px"><col style="width: 15px"> -->
-      <!-- tgwr additional -->
-      <!-- <col style="width: 15px"><col style="width: 15px"><col style="width: 15px">
-      <col style="width: 15px"><col style="width: 15px"><col style="width: 15px">
-      <col style="width: 15px"><col style="width: 15px"><col style="width: 15px">
-      <col style="width: 15px"><col style="width: 15px"><col style="width: 15px"> -->
-      <!-- punct + num -->
-      <!-- <col style="width: 15px"><col style="width: 15px"><col style="width: 15px">
-      <col style="width: 15px"><col style="width: 15px"><col style="width: 15px">
-      <col style="width: 15px"><col style="width: 15px"><col style="width: 15px">
-      <col style="width: 15px"><col style="width: 15px"><col style="width: 15px">
-      <col style="width: 15px"><col style="width: 15px"><col style="width: 15px"> -->
-      <!-- meta -->
-      <!-- <col style="width: 15px"><col style="width: 15px"><col style="width: 15px"> -->
-      <!-- <col style="width: 15px"><col style="width: 15px"><col style="width: 15px"> -->
       <col style="width: 34px">
       <col style="width: 34px">
       <col style="width: 34px">
@@ -399,7 +383,8 @@
     }
 
     const shiftToggle = (lock) => {
-        if (shiftState) {
+        // shiftlock upgrade
+        if (shiftState && (!lock || shiftLockState)) {
             // Extended back to normal
             dget("b-tinco").innerHTML   = "";
             dget("b-parma").innerHTML   = "";
@@ -474,6 +459,9 @@
 
             shiftState = false;
             shiftLockState = false;
+
+            dget("b-shift").classList.remove("pressed");
+            dget("b-shift2").classList.remove("pressed");
         } else {
             // Extendeds
             dget("b-tinco").innerHTML   = "";
@@ -548,6 +536,11 @@
             dget("b-botring").innerHTML =  "<span class=\"gr\"></span>";
             shiftState = true;
             shiftLockState = lock;
+
+            dget("b-shift").classList.add("pressed");
+            if (lock) {
+                dget("b-shift2").classList.add("pressed");
+            }
         }
         drawNums();
     }
