@@ -574,6 +574,11 @@
             f = () => {
                 const q = dget("tengwar-input");
                 let j = btn.innerHTML;
+
+                if (j === "&nbsp;") {
+                    return;
+                }
+
                 const spanEnd = "</span>";
                 // strip out span, bit of a hack
                 let z = j.indexOf(spanEnd);
