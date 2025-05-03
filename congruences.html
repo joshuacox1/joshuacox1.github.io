@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello, world!</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+  <link rel="stylesheet" type="text/css" href="/assets/style.css" />
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/14.2.1/math.min.js"></script>
+  <link rel="icon" href="favicon.png">
+  <meta name="theme-color" content="">
+</head>
+<body>
+  <style>
+    .num-input {
+        width: 40px;
+    }
+  </style>
+  <script>
+    BigInt.prototype.toJSON = function () {
+        return { $bigint: this.toString() };
+    };
+
+    const MAX_NUM_EQUATIONS = 4;
+
+    const doEverything = () => {
+        const stringValues = readEquationValuesFromHtml();
+        console.log(stringValues);
+        const nullableEquations = parseEquationValues(stringValues);
+        console.log(nullableEquations);
+
+        let output;
+        // Produce something very simple for now.
+        if (nullableEquations[0] === "failure") {
+            output = JSON.stringify(nullableEquations);
+        } else {
+            // TODO: sad index relabelling due to nullable rows. Or just reject
+            // early nullable rows, but that's sad.
+            const equations = nullableEquations[1].filter(e => e !== null);
+            const solution = solveMultiple(equations);
+            output = JSON.stringify(solution);
+        }
+
+        document.getElementById("solution-p").innerHTML = output;
+    }
+
+    /// Read equation values out of the HTML elements into an array.
+    /// The ith value of the array is a length-3 array consisting of the
+    /// a, b and m values in the boxes. They will be strings to parse later.
+    const readEquationValuesFromHtml = () => {
+        const stringValues = [];
+        for (let i = 1; i <= MAX_NUM_EQUATIONS; i++) {
+            const a = document.getElementById(`i-a${i}`).value;
+            const b = document.getElementById(`i-b${i}`).value;
+            const m = document.getElementById(`i-m${i}`).value;
+            stringValues.push([a,b,m]);
+        }
+
+        return stringValues;
+    }
+
+    /// Attempt to parse an equation array. Each array element contains
+    /// 3 string values which represent [a,b,m] values.
+    /// A row is valid if either all 3 values are valid integers and m >= 1,
+    /// or all 3 values are the empty string.
+    /// If all rows are valid, returns ["success", nullableEquations] where
+    /// each element of nullableEquations is either null, representing
+    /// an entirely blank row, or [a,b,m], where a,b,m are BigInts with m >= 1.
+    /// Otherwise returns ["failure", parseFailures,
+    /// missingValuesOnNonBlankRows, nonPositiveModuli] where parseFailures
+    /// and missingValuesOnNonBlankRows consist of pairs [i,"a"], for example,
+    /// where i is a 1-index into `equations` and the string "a", "b" or "m"
+    /// indicates the problem. nonPositiveModuli is just an array of 1-indices i.
+    /// Not all of them will be empty.
+    const parseEquationValues = (stringValues) => {
+        const parseFailures = [];
+        const missingValuesOnNonBlankRows = [];
+        const nonPositiveModuli = [];
+        const nullableEquations = [];
+        for (let i = 1; i <= stringValues.length; i++) {
+            const [a_s,b_s,m_s] = stringValues[i-1];
+            const [a_result, a] = parseNullableBigInt(a_s);
+            const [b_result, b] = parseNullableBigInt(b_s);
+            const [m_result, m] = parseNullableBigInt(m_s);
+            console.log("Hello",a,b,m);
+
+            let rowOk = true;
+            // Report parse failures.
+            if (a_result === INTPARSE_FAIL) { parseFailures.push([i, "a"]); rowOk = false; }
+            if (b_result === INTPARSE_FAIL) { parseFailures.push([i, "b"]); rowOk = false; }
+            if (m_result === INTPARSE_FAIL) { parseFailures.push([i, "m"]); rowOk = false; }
+            // Report entirely blank rows, which are fine, and missing values on
+            // not-entirely-blank rows, which are not.
+            if (a_result === INTPARSE_NULL && b_result === INTPARSE_NULL && m_result === INTPARSE_NULL) {
+                nullableEquations.push(null);
+                continue;
+            } else {
+                if (a_result === INTPARSE_NULL) { missingValuesOnNonBlankRows.push([i, "a"]); rowOk = false; }
+                if (b_result === INTPARSE_NULL) { missingValuesOnNonBlankRows.push([i, "b"]); rowOk = false; }
+                if (m_result === INTPARSE_NULL) { missingValuesOnNonBlankRows.push([i, "m"]); rowOk = false; }
+            }
+            // Report non-positive moduli.
+            if (m_result === INTPARSE_ISANINT && m < BigInt(1)) { nonPositiveModuli.push(i); rowOk = false; }
+            if (rowOk) {
+                nullableEquations.push([a,b,m]);
+            }
+        }
+
+        if (parseFailures.length > 0 || missingValuesOnNonBlankRows.length > 0 || nonPositiveModuli.length > 0) {
+            return ["failure", parseFailures, missingValuesOnNonBlankRows, nonPositiveModuli];
+        } else {
+            return ["success", nullableEquations];
+        }
+    }
+
+    const INTPARSE_NULL = -1;
+    const INTPARSE_ISANINT = 0;
+    const INTPARSE_FAIL = 1;
+
+    const parseNullableBigInt = s => {
+        if (s === "") {
+            return [INTPARSE_NULL, null];
+        }
+        try {
+            console.log(s);
+            let v = BigInt(s);
+            return [INTPARSE_ISANINT, v];
+        } catch (error) {
+            return [INTPARSE_FAIL, null];
+        }
+    }
+
+    const SOLUTION = 0;
+    const NO_SOLUTION = 1;
+
+    // INEXPLICABLY math.js returns normal integers, not BigInts,
+    // from gcd and xgcd. It does do BigInts for mod though.
+    // What. The. Fuck.
+
+    const gcd = (m,n) => {
+        const result = math.gcd(m,n);
+        return BigInt(result);
+    }
+
+    const lcm = (m,n) => {
+        const result = math.lcm(m,n);
+        return BigInt(result);
+    }
+
+    const xgcd = (m,n) => {
+        const [g,u,v] = math.xgcd(m,n)["_data"];
+        return [BigInt(g), BigInt(u), BigInt(v)];
+    }
+
+    const solveSingle = (a, b, m) => {
+        console.assert(m >= BigInt(1));
+        const d = gcd(a, m);
+        if (math.mod(b,d) !== BigInt(0)) {
+            return [NO_SOLUTION, d];
+        } else {
+            const a_ = a/d; const b_ = b/d; const m_ = m/d;
+            const [g,u,v] = xgcd(a_,m_);
+            const x = math.mod((u*b_), m_);
+            return [SOLUTION, x, m_];
+        }
+    }
+
+    const solvePair = (c1, m1, c2, m2) => {
+        const one = BigInt(1);
+        console.assert(m2 >= one && m2 >= one);
+
+        const g = gcd(m1, m2);
+        // This is an assertion because we only call this
+        // after already checking it. Should probably
+        // do something less silly than this.
+        console.assert(math.mod(c1,g) === math.mod(c2,g));
+        
+        const m1_star = m1/g; const m2_star = m2/g;
+        const [_,p,q] = xgcd(m1_star, m2_star);
+        const l = lcm(m1, m2);
+        const e = math.mod(c1*m2_star*q + c2*m1_star*p, l);
+        return [e,l];
+    }
+
+    /// Attempt to solve a fully general system of congruences.
+    /// `equations` must be an array of length-3 arrays [a,b,m]
+    /// where a,b,m are BigInts and m >= 1. Assume that is
+    /// already true.
+    ///
+    /// Returns a structure
+    /// {
+    ///     "combined": <combined>,
+    ///     "allSolves": <solves>,
+    ///     "irreconcilable": []
+    /// }
+    ///
+    /// - <combined> is list of pairs [S,M] if there is a solution and null otherwise.
+    ///   This will represent building up solutions by successively solving
+    ///   pairs of solves (combining 1 with 2, then the result with 3, etc.).
+    //    The integer solutions x are exactly those of the
+    ///   form x=S (mod M) for the final [S,M]. <combined> will be non-null exactly when <solves>
+    ///   contains no failures and <irreconcilable> is empty.
+    ///   If `equations` is empty, <combined> will be [[0,1]].
+    /// - <solves> is an array of equal length to `equations`. If the ith equation
+    ///   ax=b (mod m) is solvable, the ith entry of <solves> is ["success",c,m'] where
+    ///   x=c (mod m'). If it is not solvable, the entry is ["failure", d] where
+    ///   d = gcd(a,m) (it is unsolvable because d does not divide b).
+    /// - <irreconcilable> is an array containing entries [i,j,g,c_i_modg,c_j_modg].
+    ///   i,j are indices into `individual_solves` (we use 1-indexing) with i < j.
+    ///   These indices will point to *successful* solves x=c_i (mod m_i) and
+    ///   x = c_j (mod m_j); then g = gcd(m_i,m_j),c_i_modg = c_i % modg,
+    ///   c_j % modg, and we will have c_i_modg !== c_j_modg (which is the precise
+    ///   reason for irreconcilability).
+    ///
+    /// All presentations of x = q (mod m) will have 0 <= q < m as the standard
+    /// choice.
+    const solveMultiple = (equations) => {
+        // Step 1: solve all equations ax=b (mod m) individually. If a single
+        // equation does not have a solution, then the entire system has no
+        // solution and we report this. Otherwise solutions are of the form
+        // x=c (mod m') for some c,m'.
+        const solved = [];
+        const allSolves = [];
+        for (let i = 1; i <= equations.length; i++) {
+            const [a,b,m] = equations[i-1];
+            const sol = solveSingle(a, b, m);
+            if (sol[0] === SOLUTION) {
+                const [c, m_prime] = [sol[1], sol[2]];
+                solved.push([i, c, m_prime]);
+                allSolves.push(["success", c, m_prime]);
+            } else {
+                allSolves.push(["failure", gcd(a,m)]);
+            }
+        }
+
+        // Step 2: Out of the resulting pairs of equations x=c1 (mod mu1) and
+        // x=c2 mod mu2), check that c1 = c2 (mod gcd(mu1, mu2)).
+        // The solved equations have a solution if and only if
+        // this is true for all pairs.
+        // To be user friendly, we do this on the solved equations even if there were
+        // unsolvable equations from before, so we can report all problems at once.
+        // Note that we could have just gone straight to the solution and it would
+        // have failed if there was an irreconcilable pair. But the failure message
+        // would be on an accumulated value, which is less helpful than indicating
+        // which of the pairs of supplied equations were causing the difficulty.
+        const irreconcilable = [];
+        for (let i = 1; i <= solved.length; i++) {
+            for (let j = i; j <= solved.length; j++) {
+                const [eqnIdx_i,c_i,mu_i] = solved[i-1];
+                const [eqnIdx_j,c_j,mu_j] = solved[j-1];
+                const g = gcd(mu_i, mu_j);
+                const c_i_modg = math.mod(c_i, g);
+                const c_j_modg = math.mod(c_j, g);
+                if (c_i_modg !== c_j_modg) {
+                    irreconcilable.push(
+                        [eqnIdx_i,eqnIdx_j,g,c_i_modg,c_j_modg]
+                    );
+                }
+            }
+        }
+
+        // Step 3: Iff all equations were solvable and pairwise reconcilable,
+        // we calculate a solution.
+        let combined;
+        if (solved.length === equations.length && irreconcilable.length === 0) {
+            // Note that by applying the first equation to the all-encompassing solution
+            // x=0 (mod 1), we never have to treat the empty `equations` case specially
+            // in any way.
+            combined = [[BigInt(0),BigInt(1)]];
+            for (const [_,c_j,m_j] of solved) {
+                const [c_i,m_i] = combined[combined.length-1];
+                console.log(c_i,m_i,c_j,m_j);
+                // we assume this always succeeds because we checked earlier.
+                // make this explicit somehow?
+                const result = solvePair(c_i,m_i,c_j,m_j);
+                combined.push(result);
+            }
+        } else {
+            combined = null;
+        }
+
+        return {
+            "combined": combined,
+            "allSolves": allSolves,
+            "irreconcilable": irreconcilable,
+        };
+    }
+    </script>
+  <div>
+    <h1>Solving a linear system of congruences in general</h1>
+    <p>This solver solves for \(x\) all systems of congruences</p>
+
+    \[\begin{aligned}
+        a_1x&\equiv b_1 \pmod{m_1}\\
+        &\vdots\\
+        a_nx&\equiv b_n \pmod{m_n}
+    \end{aligned}\]
+
+    <p>for \(a_i,b_i,m_i,n\in \mathbb{Z}, m_i, n\geq 1\). If there is a solution, it will be a congruence \(x=S \pmod{M}\), which the solver will return. If there is no solution, the solver will report which equations are unsolvable or irreconcilable.</p>
+
+    <table>
+      <tr>
+        <td>(1)</td>
+        <td><input type="number" class="num-input" id="i-a1">\(x\equiv \;\)<input type="number" class="num-input" id="i-b1"></td>
+        <td>\(\;(\text{mod }\)<input type="number" class="num-input" id="i-m1" min="1">\()\)</td>
+        <td><button type="button">Clear</button></td>
+      </tr>
+      <tr>
+        <td>(2)</td>
+        <td><input type="number" class="num-input" id="i-a2">\(x\equiv \;\)<input type="number" class="num-input" id="i-b2"></td>
+        <td>\(\;(\text{mod }\)<input type="number" class="num-input" id="i-m2" min="1">\()\)</td>
+        <td><button type="button">Clear</button></td>
+      </tr>
+      <tr>
+        <td>(3)</td>
+        <td><input type="number" class="num-input" id="i-a3">\(x\equiv \;\)<input type="number" class="num-input" id="i-b3"></td>
+        <td>\(\;(\text{mod }\)<input type="number" class="num-input" id="i-m3" min="1">\()\)</td>
+        <td><button type="button">Clear</button></td>
+      </tr>
+      <tr>
+        <td>(4)</td>
+        <td><input type="number" class="num-input" id="i-a4">\(x\equiv \;\)<input type="number" class="num-input" id="i-b4"></td>
+        <td>\(\;(\text{mod }\)<input type="number" class="num-input" id="i-m4" min="1">\()\)</td>
+        <td><button type="button">Clear</button></td>
+      </tr>
+    </table>
+
+    <button type="button" id="solve-button" onclick="doEverything();">Solve</button>
+
+    <h2>Solution</h2>
+
+    <div>
+        <p id="solution-p"></p>
+    </div>
+
+    <h2>How the solver works</h2>
+
+    
+
+    <p>The solver first attempts to solve each congruence \(ax\equiv b \pmod{m}\) individually. Let \(d=\gcd(a,m)\). If \(d \nmid b\), the congruence has no solutions and hence the whole system has no solutions. Otherwise, let \(a'=a/d\), \(b'=b/d\) and \(m'=m/d\). Now \(a'\) is a unit mod \(m'\) and the solutions \(x\) are exactly those integers satisfying</p>
+
+    \[
+        x \equiv b'(a')^{-1} \pmod{m'}\text{.}
+    \]
+
+    <p>If all equations can be individually solved in the form \(x=c_i \pmod{m'_i}\), the solver continues. Consider a pair of equations \(x=c_i \pmod{m'_i}\) and \(x=c_j \pmod{m'_j}\) and let \(g=\gcd(m'_i,m'_j)\). If \(c_i \not\equiv c_j \pmod{g}\), the equation has no solutions. Otherwise, let \(m^\ast_i=m'_i/g\), \(m^\ast_j=m'_j/g\), and use the extended Euclidean algorithm to find integers \(p,q\) satisfying \(m_i^\ast p + m_j^\ast q = 1\). Then let \(e=c_im_j^\ast q + c_jm_i^\ast p\) and \(\ell=\operatorname{lcm}(m'_i,m'_j)\). The solutions are then exactly those integers \(x\) of the form</p>
+
+    \[
+        x\equiv e \pmod{\ell}\text{.}
+    \]
+
+    <p>In general, the system of equations \(x\equiv c_i \pmod{m'_i}\) has a solution if and only if \(c_i\equiv c_j \pmod{\gcd(m'_i,m'_j)}\) for all pairs of equations indexed \(i,j\). If this is satisfied, then the overall solution may be obtained by iterating the process for pairs on successive elements. In particular the modulus is \(\operatorname{lcm}(m_1',\ldots,m_n')\). This is what the solver does.</p>
+  </div>
+
+</body>
+</html>

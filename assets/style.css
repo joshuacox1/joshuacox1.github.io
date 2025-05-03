@@ -75,13 +75,11 @@
     src: url("/assets/fonts/fira_mono_bold.woff2");
 }
 
-
 @font-face {
     font-family: "Alcarin Tengwar";
     font-weight: 400;
     src: url("/assets/fonts/alcarin_tengwar_regular.woff2");
 }
-
 
 @font-face {
     font-family: "Alcarin Tengwar";
@@ -89,11 +87,23 @@
     src: url("/assets/fonts/alcarin_tengwar_bold.woff2");
 }
 
+@font-face {
+    font-family: "Tengwar Telcontar";
+    font-weight: normal;
+    src: url("/assets/fonts/tengtelcOTL.woff2");
+}
+
+/* @font-face {
+    font-family: "Tengwar Telcontar";
+    font-weight: bold;
+    src: url("/assets/fonts/tengtelcb.ttf");
+} */
+
 :root {
     --serif-font: EquityA, TimesNewRoman, Times New Roman, Times, Baskerville, Georgia, serif;
     --sans-serif-font: Concourse, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, Arial, sans-serif;
     --monospaced-font: "Fira Mono", ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
-    --tengwar-font: "Alcarin Tengwar";
+    --tengwar-font: "Tengwar Telcontar", "Alcarin Tengwar";
     --input-text-size: 15px;
     --body-text-size: 18px;
     --h2-text-size: 18px;

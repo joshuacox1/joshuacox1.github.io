@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello, world!</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+  <link rel="stylesheet" type="text/css" href="/assets/style.css" />
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <link rel="icon" href="favicon.png">
+  <meta name="theme-color" content="">
+</head>
+<body>
+  <h1>W</h1>
+  <pre><code><p id="display-test"></code></pre>
+  <canvas id="life-canvas" width="2001" height="2001"></canvas>
+  <script>
+    const GRID_LINE_WIDTH = 1;
+    const PIXEL_MULT = 10;
+    const SIDE_LENGTH = 200;
+    const CANVAS_SIZE = SIDE_LENGTH*PIXEL_MULT + GRID_LINE_WIDTH;
+    // basic for now. if i'm going to write the quadtree algorithm, i need to work out
+    // an actual hashmap in javascript :( or write it in something else and compile it to webassembly
+    let BOARD = [];
+    for (let j = 0; j < SIDE_LENGTH; j++) {
+        const row = [];
+        for (let i = 0; i < SIDE_LENGTH; i++) {
+            row.push(Math.random() < (3/8) ? 15 : 0);
+        }
+        BOARD.push(row);
+    }
+
+    const mod = (n,d) => ((n % d) + d) % d;
+
+    const evolve = state => {
+        const new_state = [];
+        for (let j = 0; j < SIDE_LENGTH; j++) {
+            const row = [];
+            for (let i = 0; i < SIDE_LENGTH; i++) {
+                const neighbors = [[i-1,j-1],[i,j-1],[i+1,j-1],[i+1,j],[i+1,j+1],[i,j+1],[i-1,j+1],[i-1,j]];
+                let neighbor_count = 0;
+                for (const [x,y] of neighbors) {
+                    const x_ = mod(x, SIDE_LENGTH); const y_ = mod(y, SIDE_LENGTH);
+                    if (state[y_][x_] === 15) {
+                        neighbor_count += 1;
+                    }
+                }
+
+                const thisVal = state[mod(j, SIDE_LENGTH)][mod(i, SIDE_LENGTH)];
+                let good;
+                if (neighbor_count === 3) {
+                    good = true;
+                } else if (neighbor_count === 2) {
+                    good = thisVal == 15;
+                } else {
+                    good = false;
+                }
+                row.push(good ? 15 : Math.max(thisVal-1, 0));
+            }
+            new_state.push(row);
+        }
+        return new_state;
+    }
+
+    const print = () => {
+        const p = document.getElementById("display-test");
+        const q = [];
+        for (let j = 0; j < SIDE_LENGTH; j++) {
+            for (let i = 0; i < SIDE_LENGTH; i++) {
+                const char = BOARD[j][i] === 15 ? 'X' : '·';
+                q.push(char);
+            }
+            q.push('\n');
+        }
+        const r = q.join("");
+        p.innerHTML = r;
+    }
+
+    const setupCanvas = () => {
+        const canvas = document.getElementById("life-canvas");
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = `rgb(216,216,216)`;
+        for (let i = 0; i <= SIDE_LENGTH; i++) {
+            ctx.fillRect(PIXEL_MULT*i, 0, 1, CANVAS_SIZE);
+            ctx.fillRect(0, PIXEL_MULT*i, CANVAS_SIZE, 1);
+        }
+    }
+
+    const showOnCanvas = () => {
+        const canvas = document.getElementById("life-canvas");
+        const ctx = canvas.getContext("2d");
+        for (let j = 0; j < SIDE_LENGTH; j++) {
+            for (let i = 0; i < SIDE_LENGTH; i++) {
+                const val = BOARD[j][i];
+                // gamma correction
+                const rgb = Math.floor(256 * (1-Math.max(val-0,0)/15)**(1/2.2));
+                ctx.fillStyle = `rgb(${rgb},${rgb},${rgb})`;
+                ctx.fillRect(
+                    PIXEL_MULT*i+GRID_LINE_WIDTH,
+                    PIXEL_MULT*j+GRID_LINE_WIDTH,
+                    PIXEL_MULT-GRID_LINE_WIDTH,
+                    PIXEL_MULT-GRID_LINE_WIDTH);
+                // if (on) {
+                //     ctx.fillRect(10*i, 10*j, 9, 9);
+                // } else {
+                //     ctx.clearRect(10*i, 10*j, 9, 9);
+                // }
+            }
+        }
+    }
+
+    async function doStuff() {
+        showOnCanvas();
+        while (true) {
+            await new Promise(r => setTimeout(r, 10));
+            BOARD = evolve(BOARD);
+            showOnCanvas();
+        }
+    }
+
+    setupCanvas();
+    doStuff();
+  </script>
+</body>
