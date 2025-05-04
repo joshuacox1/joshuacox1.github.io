@@ -16,13 +16,48 @@
     .num-input {
         width: 40px;
     }
+
+    .num-input-table {
+        margin: auto;
+        margin-bottom: 20px;
+    }
+
+    .auto-div {
+        background-color: #ebebeb;
+        padding: 20px 25px;
+        border-radius: 9px;
+        font-size: 93%;
+        font-family: var(--sans-serif-font);
+    }
+
+    .button-table {
+        margin: auto;
+    }
+
+    .auto-button {
+        width: 200px;
+        height: 30px;
+        cursor: pointer;
+        background-color: green;
+        color: white;
+        border: none;
+        border-radius: 3px;
+    }
   </style>
   <script>
     BigInt.prototype.toJSON = function () {
         return { $bigint: this.toString() };
     };
 
-    const MAX_NUM_EQUATIONS = 4;
+    const MAX_NUM_EQUATIONS = 10;
+
+    const clearAll = () => {
+        for (let i = 1; i <= MAX_NUM_EQUATIONS; i++) {
+            document.getElementById(`i-a${i}`).value = "";
+            document.getElementById(`i-b${i}`).value = "";
+            document.getElementById(`i-m${i}`).value = "";
+        }
+    }
 
     const doEverything = () => {
         const stringValues = readEquationValuesFromHtml();
@@ -33,16 +68,107 @@
         let output;
         // Produce something very simple for now.
         if (nullableEquations[0] === "failure") {
-            output = JSON.stringify(nullableEquations);
+            const [_, parseFailures, missingValuesOnNonBlankRows, nonPositiveModuli] = nullableEquations;
+            let p = `<p>Failed to read input:</p>\n<ul>`;
+            if (parseFailures.length > 0) {
+                const plural = parseFailures.length !== 1;
+                const parseFailureStr = parseFailures
+                    .map(x => `\\\(${x[1]}_{${x[0]}}\\\)`)
+                    .join(", ");
+                p += `<li>${parseFailureStr} ${plural ? 'don&#8217;t seem to be integers' : 'doesn&#8217;t seem to be an integer'}.</li>`;
+            }
+            if (missingValuesOnNonBlankRows.length > 0) {
+                const plural = missingValuesOnNonBlankRows.length !== 1;
+                const missingValuesStr = missingValuesOnNonBlankRows
+                    .map(x => `\\\(${x[1]}_{${x[0]}}\\\)`)
+                    .join(", ");
+                p += `<li>${missingValuesStr} ${plural ? 'are' : 'is'} empty, but the entire row isn&#8217;t blank.</li>`;
+            }
+            if (nonPositiveModuli.length > 0) {
+                const plural = nonPositiveModuli.length !== 1;
+                const nonPositiveModuliStr = nonPositiveModuli
+                    .map(x => `\\\(m_{${x}}\\\)`)
+                    .join(", ");
+                p += `<li>${nonPositiveModuliStr} must be ${plural ? 'positive integers' : 'a positive integer'}.</li>`;
+            }
+            p += "</ul";
+            output = p;
         } else {
-            // TODO: sad index relabelling due to nullable rows. Or just reject
-            // early nullable rows, but that's sad.
             const equations = nullableEquations[1].filter(e => e !== null);
             const solution = solveMultiple(equations);
-            output = JSON.stringify(solution);
+            console.log(solution);
+
+            const htmlBuildUp = ["<p>Individual solutions:</p><ul>"];
+            let failPresent = false;
+            const solves = solution["allSolves"];
+            for (let i = 1; i <= equations.length; i++) {
+                const [a,b,m] = equations[i-1];
+                const sol = solves[i-1];
+                const rowBuildUp = [
+                    `<li>\\\(${a}x\\equiv ${b} \\pmod{${m}}\\\)`
+                ];
+                if (sol[0] === "success") {
+                    const c = sol[1]; const m_ = sol[2];
+                    rowBuildUp.push(` has solution \\\(x\\equiv ${c} \\pmod{${m_}}\\\).`);
+                } else {
+                    failPresent = true;
+                    rowBuildUp.push(` has no solution as \\\(\\gcd(${a},${m})=${sol[1]} \\nmid ${b}\\\).`)
+                }
+                htmlBuildUp.push(rowBuildUp.join(""));
+            }
+            htmlBuildUp.push("</ul>");
+
+            const irrec = solution["irreconcilable"];
+            if (irrec.length > 0) {
+                htmlBuildUp.push("<p>The following pairs of congruences are irreconcilable:</p><ul>");
+                for (let [i,j,g,c_i_modg, c_j_modg] of irrec) {
+                    // irrecs must be successes
+                    const [_i, c_i, m_i] = solves[i-1]; [_j, c_j, m_j] = solves[j-1];
+                    const c_i_str = c_i === c_i_modg ? `${c_i}` : `${c_i}\\equiv ${c_i_modg}`;
+                    const c_j_str = c_j === c_j_modg ? `${c_j}` : `${c_j_modg}\\equiv ${c_j}`;
+                    const gcd_str = m_i === m_j ? "" : `, where \\\(${g} = \\gcd(${m_i}, ${m_j})\\\)`;
+                    htmlBuildUp.push(
+                        `<li>\\\(x\\equiv ${c_i}\\pmod{${m_i}}\\\) is irreconcilable with ` +
+                        `\\\(x\\equiv ${c_j}\\pmod{${m_j}}\\\) as \\\(${c_i_str}\\not\\equiv${c_j_str} \\pmod{${g}}\\\)${gcd_str}.</li>`
+                    );
+                }
+                htmlBuildUp.push("</ul>");
+            } else {
+                htmlBuildUp.push("<p>All congruences are pairwise reconcilable.</p>");
+            }
+
+            let solutiontag;
+            const comb = solution["combined"];
+            if (failPresent && irrec.length > 0) {
+                solutiontag = "<p>Since there were both unsolvable and irreconcilable congruences, the overall system of congruences has no solution.</p>";
+                htmlBuildUp.push(solutiontag);
+            } else if (failPresent) {
+                solutiontag = "<p>Since there were unsolvable congruences, the overall system of congruences has no solution.</p>";
+                htmlBuildUp.push(solutiontag);
+            } else if (irrec.length > 0) {
+                solutiontag = "<p>Since there were irreconcilable congruences, the overall system of congruences has no solution.</p>";
+                htmlBuildUp.push(solutiontag);
+            } else {
+                solutiontag = "<p>Therefore the overall system of congruences can be solved by successive application from the trivial congruence:</p><ul>";
+                htmlBuildUp.push(solutiontag);
+                for (const [c,m] of comb) {
+                    htmlBuildUp.push(`<li>\\\(x\\equiv${c}\\pmod{${m}}\\\)</li>`);
+                }
+                htmlBuildUp.push("</ul>");
+                const [c,m] = comb[comb.length-1];
+                htmlBuildUp.push(`Hence the solution is \\\(x\\equiv${c}\\pmod{${m}}\\\).`)
+            }
+
+            output = htmlBuildUp.join("");
         }
 
-        document.getElementById("solution-p").innerHTML = output;
+        document.getElementById("solution-div").innerHTML = output;
+        MathJax.typeset();
+    }
+
+    const aXCongBModM = (a,b,m, includeAnd) => {
+        // a optional.
+        return `${a === null ? "" : a}x ${includeAnd?"&":""}\\equiv ${b} \\pmod{${m}}`;
     }
 
     /// Read equation values out of the HTML elements into an array.
@@ -297,46 +423,60 @@
         a_nx&\equiv b_n \pmod{m_n}
     \end{aligned}\]
 
-    <p>for \(a_i,b_i,m_i,n\in \mathbb{Z}, m_i, n\geq 1\). If there is a solution, it will be a congruence \(x=S \pmod{M}\), which the solver will return. If there is no solution, the solver will report which equations are unsolvable or irreconcilable.</p>
+    <p>for \( n\in\mathbb{N}, a_i,b_i,m_i\in \mathbb{Z}, m_i\geq 1\). If there is a solution, it will be a congruence \(x=S \pmod{M}\), which the solver will return. If there is no solution, the solver will report which congruences are unsolvable or irreconcilable.</p>
 
-    <table>
-      <tr>
-        <td>(1)</td>
-        <td><input type="number" class="num-input" id="i-a1">\(x\equiv \;\)<input type="number" class="num-input" id="i-b1"></td>
-        <td>\(\;(\text{mod }\)<input type="number" class="num-input" id="i-m1" min="1">\()\)</td>
-        <td><button type="button">Clear</button></td>
-      </tr>
-      <tr>
-        <td>(2)</td>
-        <td><input type="number" class="num-input" id="i-a2">\(x\equiv \;\)<input type="number" class="num-input" id="i-b2"></td>
-        <td>\(\;(\text{mod }\)<input type="number" class="num-input" id="i-m2" min="1">\()\)</td>
-        <td><button type="button">Clear</button></td>
-      </tr>
-      <tr>
-        <td>(3)</td>
-        <td><input type="number" class="num-input" id="i-a3">\(x\equiv \;\)<input type="number" class="num-input" id="i-b3"></td>
-        <td>\(\;(\text{mod }\)<input type="number" class="num-input" id="i-m3" min="1">\()\)</td>
-        <td><button type="button">Clear</button></td>
-      </tr>
-      <tr>
-        <td>(4)</td>
-        <td><input type="number" class="num-input" id="i-a4">\(x\equiv \;\)<input type="number" class="num-input" id="i-b4"></td>
-        <td>\(\;(\text{mod }\)<input type="number" class="num-input" id="i-m4" min="1">\()\)</td>
-        <td><button type="button">Clear</button></td>
-      </tr>
-    </table>
+    <div class="auto-div">
+      <table class="num-input-table">
+        <tr>
+          <td><input type="text" inputmode="numeric" class="num-input" id="i-a1" value="77">\(x\equiv \;\)<input type="text" inputmode="numeric" class="num-input" id="i-b1" value="11"></td>
+          <td>\(\;(\text{mod }\)<input type="text" inputmode="numeric" class="num-input" id="i-m1" min="1" value="40">\()\)</td>
+          <td style="width: 30px;"></td>
+          <td><input type="text" inputmode="numeric" class="num-input" id="i-a6">\(x\equiv \;\)<input type="text" inputmode="numeric" class="num-input" id="i-b6"></td>
+          <td>\(\;(\text{mod }\)<input type="text" inputmode="numeric" class="num-input" id="i-m6" min="1">\()\)</td>
+        </tr>
+        <tr>
+          <td><input type="text" inputmode="numeric" class="num-input" id="i-a2" value="12">\(x\equiv \;\)<input type="text" inputmode="numeric" class="num-input" id="i-b2" value="14"></td>
+          <td>\(\;(\text{mod }\)<input type="text" inputmode="numeric" class="num-input" id="i-m2" min="1" value="34">\()\)</td>
+          <td style="width: 30px;"></td>
+          <td><input type="text" inputmode="numeric" class="num-input" id="i-a7">\(x\equiv \;\)<input type="text" inputmode="numeric" class="num-input" id="i-b7"></td>
+          <td>\(\;(\text{mod }\)<input type="text" inputmode="numeric" class="num-input" id="i-m7" min="1">\()\)</td>
+        </tr>
+        <tr>
+          <td><input type="text" inputmode="numeric" class="num-input" id="i-a3" value="1">\(x\equiv \;\)<input type="text" inputmode="numeric" class="num-input" id="i-b3" value="-37"></td>
+          <td>\(\;(\text{mod }\)<input type="text" inputmode="numeric" class="num-input" id="i-m3" min="1" value="28">\()\)</td>
+          <td style="width: 30px;"></td>
+          <td><input type="text" inputmode="numeric" class="num-input" id="i-a8">\(x\equiv \;\)<input type="text" inputmode="numeric" class="num-input" id="i-b8"></td>
+          <td>\(\;(\text{mod }\)<input type="text" inputmode="numeric" class="num-input" id="i-m8" min="1">\()\)</td>
+        </tr>
+        <tr>
+          <td><input type="text" inputmode="numeric" class="num-input" id="i-a4">\(x\equiv \;\)<input type="text" inputmode="numeric" class="num-input" id="i-b4"></td>
+          <td>\(\;(\text{mod }\)<input type="text" inputmode="numeric" class="num-input" id="i-m4" min="1">\()\)</td>
+          <td style="width: 30px;"></td>
+          <td><input type="text" inputmode="numeric" class="num-input" id="i-a9">\(x\equiv \;\)<input type="text" inputmode="numeric" class="num-input" id="i-b9"></td>
+          <td>\(\;(\text{mod }\)<input type="text" inputmode="numeric" class="num-input" id="i-m9" min="1">\()\)</td>
+        </tr>
+        <tr>
+          <td><input type="text" inputmode="numeric" class="num-input" id="i-a5">\(x\equiv \;\)<input type="text" inputmode="numeric" class="num-input" id="i-b5"></td>
+          <td>\(\;(\text{mod }\)<input type="text" inputmode="numeric" class="num-input" id="i-m5" min="1">\()\)</td>
+          <td style="width: 30px;"></td>
+          <td><input type="text" inputmode="numeric" class="num-input" id="i-a10">\(x\equiv \;\)<input type="text" inputmode="numeric" class="num-input" id="i-b10"></td>
+          <td>\(\;(\text{mod }\)<input type="text" inputmode="numeric" class="num-input" id="i-m10" min="1">\()\)</td>
+        </tr>
+      </table>
 
-    <button type="button" id="solve-button" onclick="doEverything();">Solve</button>
-
-    <h2>Solution</h2>
-
-    <div>
-        <p id="solution-p"></p>
+      <table class="button-table">
+        <tr>
+          <td><button type="button" class="auto-button" id="solve-button" onclick="doEverything();">Solve</button></td>
+          <td><button type="button" class="auto-button" id="clear-button" onclick="clearAll();">Clear</button></td>
+        </tr>
+      </table>
+  
+      <div>
+          <div id="solution-div"></div>
+      </div>
     </div>
 
     <h2>How the solver works</h2>
-
-    
 
     <p>The solver first attempts to solve each congruence \(ax\equiv b \pmod{m}\) individually. Let \(d=\gcd(a,m)\). If \(d \nmid b\), the congruence has no solutions and hence the whole system has no solutions. Otherwise, let \(a'=a/d\), \(b'=b/d\) and \(m'=m/d\). Now \(a'\) is a unit mod \(m'\) and the solutions \(x\) are exactly those integers satisfying</p>
 
@@ -344,13 +484,13 @@
         x \equiv b'(a')^{-1} \pmod{m'}\text{.}
     \]
 
-    <p>If all equations can be individually solved in the form \(x=c_i \pmod{m'_i}\), the solver continues. Consider a pair of equations \(x=c_i \pmod{m'_i}\) and \(x=c_j \pmod{m'_j}\) and let \(g=\gcd(m'_i,m'_j)\). If \(c_i \not\equiv c_j \pmod{g}\), the equation has no solutions. Otherwise, let \(m^\ast_i=m'_i/g\), \(m^\ast_j=m'_j/g\), and use the extended Euclidean algorithm to find integers \(p,q\) satisfying \(m_i^\ast p + m_j^\ast q = 1\). Then let \(e=c_im_j^\ast q + c_jm_i^\ast p\) and \(\ell=\operatorname{lcm}(m'_i,m'_j)\). The solutions are then exactly those integers \(x\) of the form</p>
+    <p>If all equations can be individually solved in the form \(x\equiv c_i \pmod{m'_i}\), the solver continues. Consider a pair of congruences \(x\equiv c_i \pmod{m'_i}\) and \(x\equiv c_j \pmod{m'_j}\) and let \(g=\gcd(m'_i,m'_j)\). If \(c_i \not\equiv c_j \pmod{g}\), the equation has no solutions. Otherwise, let \(m^\ast_i=m'_i/g\), \(m^\ast_j=m'_j/g\), and use the extended Euclidean algorithm to find integers \(p,q\) satisfying \(m_i^\ast p + m_j^\ast q = 1\). Then let \(e=c_im_j^\ast q + c_jm_i^\ast p\) and \(\ell=\operatorname{lcm}(m'_i,m'_j)\). The solutions are then exactly those integers \(x\) of the form</p>
 
     \[
         x\equiv e \pmod{\ell}\text{.}
     \]
 
-    <p>In general, the system of equations \(x\equiv c_i \pmod{m'_i}\) has a solution if and only if \(c_i\equiv c_j \pmod{\gcd(m'_i,m'_j)}\) for all pairs of equations indexed \(i,j\). If this is satisfied, then the overall solution may be obtained by iterating the process for pairs on successive elements. In particular the modulus is \(\operatorname{lcm}(m_1',\ldots,m_n')\). This is what the solver does.</p>
+    <p>In general, the system of congruences \(x\equiv c_i \pmod{m'_i}\) has a solution if and only if \(c_i\equiv c_j \pmod{\gcd(m'_i,m'_j)}\) for all pairs of congruences indexed \(i,j\). If this is satisfied, then the overall solution may be obtained by iterating the process for pairs on successive elements. In particular the overall modulus is \(\operatorname{lcm}(m_1',\ldots,m_n')\).</p>
   </div>
 
 </body>
