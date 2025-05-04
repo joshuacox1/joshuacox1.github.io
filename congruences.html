@@ -38,10 +38,23 @@
         width: 200px;
         height: 30px;
         cursor: pointer;
-        background-color: green;
-        color: white;
         border: none;
         border-radius: 3px;
+    }
+
+    .green-button {
+        background-color: #33a233;
+        color: white;
+    }
+
+    .red-button {
+        background-color: #e10a0a;
+        color: white;
+    }
+
+    .grey-button {
+        background-color: #b2b2b2;
+        color: black;
     }
   </style>
   <script>
@@ -50,12 +63,24 @@
     };
 
     const MAX_NUM_EQUATIONS = 10;
+    const EXAMPLE_1 = [[77,11,-40],[12,14,34],[1,-37,28]];
+    const EXAMPLE_2 = [[77,11,-40],[12,15,34],[-1,-37,28]];
 
     const clearAll = () => {
         for (let i = 1; i <= MAX_NUM_EQUATIONS; i++) {
             document.getElementById(`i-a${i}`).value = "";
             document.getElementById(`i-b${i}`).value = "";
             document.getElementById(`i-m${i}`).value = "";
+        }
+    }
+
+    const setExample = example => {
+        clearAll();
+        for (let i = 1; i <= math.min(MAX_NUM_EQUATIONS, example.length); i++) {
+            const [a,b,m] = example[i-1];
+            document.getElementById(`i-a${i}`).value = `${a}`;
+            document.getElementById(`i-b${i}`).value = `${b}`;
+            document.getElementById(`i-m${i}`).value = `${m}`;
         }
     }
 
@@ -68,7 +93,7 @@
         let output;
         // Produce something very simple for now.
         if (nullableEquations[0] === "failure") {
-            const [_, parseFailures, missingValuesOnNonBlankRows, nonPositiveModuli] = nullableEquations;
+            const [_, parseFailures, missingValuesOnNonBlankRows, zeroModuli] = nullableEquations;
             let p = `<p>Failed to read input:</p>\n<ul>`;
             if (parseFailures.length > 0) {
                 const plural = parseFailures.length !== 1;
@@ -84,12 +109,11 @@
                     .join(", ");
                 p += `<li>${missingValuesStr} ${plural ? 'are' : 'is'} empty, but the entire row isn&#8217;t blank.</li>`;
             }
-            if (nonPositiveModuli.length > 0) {
-                const plural = nonPositiveModuli.length !== 1;
-                const nonPositiveModuliStr = nonPositiveModuli
+            if (zeroModuli.length > 0) {
+                const zeroModuliStr = zeroModuli
                     .map(x => `\\\(m_{${x}}\\\)`)
                     .join(", ");
-                p += `<li>${nonPositiveModuliStr} must be ${plural ? 'positive integers' : 'a positive integer'}.</li>`;
+                p += `<li>${zeroModuliStr} must be non-zero.</li>`;
             }
             p += "</ul";
             output = p;
@@ -109,7 +133,7 @@
                 ];
                 if (sol[0] === "success") {
                     const c = sol[1]; const m_ = sol[2];
-                    rowBuildUp.push(` has solution \\\(x\\equiv ${c} \\pmod{${m_}}\\\).`);
+                    rowBuildUp.push(` has normalised solution \\\(x\\equiv ${c} \\pmod{${m_}}\\\).`);
                 } else {
                     failPresent = true;
                     rowBuildUp.push(` has no solution as \\\(\\gcd(${a},${m})=${sol[1]} \\nmid ${b}\\\).`)
@@ -149,7 +173,7 @@
                 solutiontag = "<p>Since there were irreconcilable congruences, the overall system of congruences has no solution.</p>";
                 htmlBuildUp.push(solutiontag);
             } else {
-                solutiontag = "<p>Therefore the overall system of congruences can be solved by successive application from the trivial congruence:</p><ul>";
+                solutiontag = "<p>Therefore the overall system of congruences can be solved by successive applications from the trivial congruence:</p><ul>";
                 htmlBuildUp.push(solutiontag);
                 for (const [c,m] of comb) {
                     htmlBuildUp.push(`<li>\\\(x\\equiv${c}\\pmod{${m}}\\\)</li>`);
@@ -194,15 +218,15 @@
     /// each element of nullableEquations is either null, representing
     /// an entirely blank row, or [a,b,m], where a,b,m are BigInts with m >= 1.
     /// Otherwise returns ["failure", parseFailures,
-    /// missingValuesOnNonBlankRows, nonPositiveModuli] where parseFailures
+    /// missingValuesOnNonBlankRows, zeroModuli] where parseFailures
     /// and missingValuesOnNonBlankRows consist of pairs [i,"a"], for example,
     /// where i is a 1-index into `equations` and the string "a", "b" or "m"
-    /// indicates the problem. nonPositiveModuli is just an array of 1-indices i.
+    /// indicates the problem. zeroModuli is just an array of 1-indices i.
     /// Not all of them will be empty.
     const parseEquationValues = (stringValues) => {
         const parseFailures = [];
         const missingValuesOnNonBlankRows = [];
-        const nonPositiveModuli = [];
+        const zeroModuli = [];
         const nullableEquations = [];
         for (let i = 1; i <= stringValues.length; i++) {
             const [a_s,b_s,m_s] = stringValues[i-1];
@@ -227,14 +251,14 @@
                 if (m_result === INTPARSE_NULL) { missingValuesOnNonBlankRows.push([i, "m"]); rowOk = false; }
             }
             // Report non-positive moduli.
-            if (m_result === INTPARSE_ISANINT && m < BigInt(1)) { nonPositiveModuli.push(i); rowOk = false; }
+            if (m_result === INTPARSE_ISANINT && m === BigInt(0)) { zeroModuli.push(i); rowOk = false; }
             if (rowOk) {
                 nullableEquations.push([a,b,m]);
             }
         }
 
-        if (parseFailures.length > 0 || missingValuesOnNonBlankRows.length > 0 || nonPositiveModuli.length > 0) {
-            return ["failure", parseFailures, missingValuesOnNonBlankRows, nonPositiveModuli];
+        if (parseFailures.length > 0 || missingValuesOnNonBlankRows.length > 0 || zeroModuli.length > 0) {
+            return ["failure", parseFailures, missingValuesOnNonBlankRows, zeroModuli];
         } else {
             return ["success", nullableEquations];
         }
@@ -280,12 +304,13 @@
     }
 
     const solveSingle = (a, b, m) => {
-        console.assert(m >= BigInt(1));
-        const d = gcd(a, m);
+        console.assert(m !== BigInt(0));
+        const mplus = math.abs(m);
+        const d = gcd(a, mplus);
         if (math.mod(b,d) !== BigInt(0)) {
             return [NO_SOLUTION, d];
         } else {
-            const a_ = a/d; const b_ = b/d; const m_ = m/d;
+            const a_ = a/d; const b_ = b/d; const m_ = mplus/d;
             const [g,u,v] = xgcd(a_,m_);
             const x = math.mod((u*b_), m_);
             return [SOLUTION, x, m_];
@@ -311,7 +336,7 @@
 
     /// Attempt to solve a fully general system of congruences.
     /// `equations` must be an array of length-3 arrays [a,b,m]
-    /// where a,b,m are BigInts and m >= 1. Assume that is
+    /// where a,b,m are BigInts and m !== 0. Assume that is
     /// already true.
     ///
     /// Returns a structure
@@ -339,7 +364,7 @@
     ///   c_j % modg, and we will have c_i_modg !== c_j_modg (which is the precise
     ///   reason for irreconcilability).
     ///
-    /// All presentations of x = q (mod m) will have 0 <= q < m as the standard
+    /// All presentations of x = q (mod m) will have m>=1 and 0 <= q < m as the standard
     /// choice.
     const solveMultiple = (equations) => {
         // Step 1: solve all equations ax=b (mod m) individually. If a single
@@ -423,13 +448,13 @@
         a_nx&\equiv b_n \pmod{m_n}
     \end{aligned}\]
 
-    <p>for \( n\in\mathbb{N}, a_i,b_i,m_i\in \mathbb{Z}, m_i\geq 1\). If there is a solution, it will be a congruence \(x=S \pmod{M}\), which the solver will return. If there is no solution, the solver will report which congruences are unsolvable or irreconcilable.</p>
+    <p>for \( n\in\mathbb{N}, a_i,b_i,m_i\in \mathbb{Z}, m_i\neq 0\). If there is a solution, it will be a congruence \(x=S \pmod{M}\), which the solver will return. If there is no solution, the solver will report which congruences are unsolvable or irreconcilable.</p>
 
     <div class="auto-div">
       <table class="num-input-table">
         <tr>
           <td><input type="text" inputmode="numeric" class="num-input" id="i-a1" value="77">\(x\equiv \;\)<input type="text" inputmode="numeric" class="num-input" id="i-b1" value="11"></td>
-          <td>\(\;(\text{mod }\)<input type="text" inputmode="numeric" class="num-input" id="i-m1" min="1" value="40">\()\)</td>
+          <td>\(\;(\text{mod }\)<input type="text" inputmode="numeric" class="num-input" id="i-m1" min="1" value="-40">\()\)</td>
           <td style="width: 30px;"></td>
           <td><input type="text" inputmode="numeric" class="num-input" id="i-a6">\(x\equiv \;\)<input type="text" inputmode="numeric" class="num-input" id="i-b6"></td>
           <td>\(\;(\text{mod }\)<input type="text" inputmode="numeric" class="num-input" id="i-m6" min="1">\()\)</td>
@@ -466,8 +491,12 @@
 
       <table class="button-table">
         <tr>
-          <td><button type="button" class="auto-button" id="solve-button" onclick="doEverything();">Solve</button></td>
-          <td><button type="button" class="auto-button" id="clear-button" onclick="clearAll();">Clear</button></td>
+          <td><button type="button" class="auto-button green-button" id="solve-button" onclick="doEverything();">Solve</button></td>
+          <td><button type="button" class="auto-button red-button" id="clear-button" onclick="clearAll();">Clear</button></td>
+        </tr>
+        <tr>
+          <td><button type="button" class="auto-button grey-button" id="solve-button" onclick="setExample(EXAMPLE_1);">Example 1</button></td>
+          <td><button type="button" class="auto-button grey-button" id="clear-button" onclick="setExample(EXAMPLE_2);">Example 2</button></td>
         </tr>
       </table>
   
@@ -478,19 +507,21 @@
 
     <h2>How the solver works</h2>
 
-    <p>The solver first attempts to solve each congruence \(ax\equiv b \pmod{m}\) individually. Let \(d=\gcd(a,m)\). If \(d \nmid b\), the congruence has no solutions and hence the whole system has no solutions. Otherwise, let \(a'=a/d\), \(b'=b/d\) and \(m'=m/d\). Now \(a'\) is a unit mod \(m'\) and the solutions \(x\) are exactly those integers satisfying</p>
+    <p>The solver first attempts to solve each congruence \(ax\equiv b \pmod{m}\) individually. Let \(d=\gcd(a,m)\). If \(d \nmid b\), the congruence has no solutions and hence the whole system has no solutions. Otherwise, let \(a'=a/d\), \(b'=b/d\) and \(m'=m/d\). Now, using extended Euclidean division to find \(u,v\in \mathbb{Z}\) such that \(a'u+m'v=1\), the solutions \(x\) are exactly those integers satisfying</p>
 
     \[
-        x \equiv b'(a')^{-1} \pmod{m'}\text{.}
+        x \equiv ub' \pmod{m'}\text{.}
     \]
 
-    <p>If all equations can be individually solved in the form \(x\equiv c_i \pmod{m'_i}\), the solver continues. Consider a pair of congruences \(x\equiv c_i \pmod{m'_i}\) and \(x\equiv c_j \pmod{m'_j}\) and let \(g=\gcd(m'_i,m'_j)\). If \(c_i \not\equiv c_j \pmod{g}\), the equation has no solutions. Otherwise, let \(m^\ast_i=m'_i/g\), \(m^\ast_j=m'_j/g\), and use the extended Euclidean algorithm to find integers \(p,q\) satisfying \(m_i^\ast p + m_j^\ast q = 1\). Then let \(e=c_im_j^\ast q + c_jm_i^\ast p\) and \(\ell=\operatorname{lcm}(m'_i,m'_j)\). The solutions are then exactly those integers \(x\) of the form</p>
+    <p>Suppose then that all congruences can be individually solved in the form \(x\equiv c \pmod{m'}\). Consider a pair of congruences \(x\equiv c_i \pmod{m'_i}\) and \(x\equiv c_j \pmod{m'_j}\) and let \(g=\gcd(m'_i,m'_j)\). If \(c_i \not\equiv c_j \pmod{g}\), the pair has no joint solution and is said to be <em>irreconcilable</em>. Otherwise, let \(m^\ast_i=m'_i/g\), \(m^\ast_j=m'_j/g\), and use extended Euclidean division to find \(p,q\in \mathbb{Z}\) satisfying \(m_i^\ast p + m_j^\ast q = 1\). Then let \(e=c_im_j^\ast q + c_jm_i^\ast p\) and \(\ell=\operatorname{lcm}(m'_i,m'_j)\). The solutions to the pair are then exactly those integers \(x\) of the form</p>
 
     \[
         x\equiv e \pmod{\ell}\text{.}
     \]
 
-    <p>In general, the system of congruences \(x\equiv c_i \pmod{m'_i}\) has a solution if and only if \(c_i\equiv c_j \pmod{\gcd(m'_i,m'_j)}\) for all pairs of congruences indexed \(i,j\). If this is satisfied, then the overall solution may be obtained by iterating the process for pairs on successive elements. In particular the overall modulus is \(\operatorname{lcm}(m_1',\ldots,m_n')\).</p>
+    <p>In general, the system of congruences \(x\equiv c_i \pmod{m'_i}\) has a solution if and only if all congruences are pairwise reconcilable. If so, then the overall solution may be obtained by iterating the process for pairs on successive elements. In particular the overall modulus is \(\operatorname{lcm}(m_1',\ldots,m_n')\).</p>
+
+    <p>The solver normalises all congruences \(x=c \pmod{m}\) so that \(m\geq 1\) and \(0\leq c < m\).</p>
   </div>
 
 </body>
