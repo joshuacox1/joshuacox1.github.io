@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello, world!</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+  <link rel="stylesheet" type="text/css" href="/assets/style.css" />
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <link rel="icon" href="favicon.png">
+  <meta name="theme-color" content="">
+</head>
+<body>
+  <div>
+    <h1>Noodle problems</h1>
+    <p>I saw this question recently:</p>
+    <blockquote>You have 100 noodles in your soup bowl. You are told to take two ends of some noodles (each end on any noodle has the same probability of being chosen) in your bowl and connect them. You continue until there are no free ends. What is the expected number of loops? What is the probability of making one large loop which includes every noodle?</blockquote>
+
+    <p>Let&#8217;s solve the problem for general \(n\). Let \(E(n)\) denote the expected number of loops for \(n\) noodles. We have \(E(0)=0\), so conside \(E(n)\) for \(n>0\). Pick up one end of a noodle. There are \(2n-1\) noodle ends left. One of those ends is the other end of the noodle we picked up, whose choice would give us a loop and reduces the problem to the \(n-1\) case. The other \(2n-2\) ends are from different noodles, whose choice would give us one long noodle, again reducing the problem to the \(n-1\) case. Hence \(E(n)=1/(2n-1)+E(n-1)\) for \(n>1\) and we can say in general</p>
+
+    \[
+    E(n)=\sum_{i=1}^{n} \frac{1}{2i-1}\text{.}
+    \]
+
+    <p>Let \(P(n)\) denote the probability of obtaining one big loop. We have \(P(0)=0\)*, so consider \(P(n)\) for \(n>0\) and again pick up one end of a noodle. One of the \(2n-1\) ends left is the other end of the noodle we picked up, whose choice would create a loop. If \(n=1\), we succeed; otherwise, we immediately fail. The other \(2n-2\) ends are from different noodles, whose choice would reduce the problem to the \(n-1\) case. Hence \(P(n)=((2n-2)/(2n-1))P(n-1)\) for \(n>1\) and \(P(1)=1\), so we can say in general</p>
+
+    \[
+    P(n) = \prod_{i=2}^{n}\frac{2i-2}{2i-1} = \frac{(2n-2)!!}{(2n-1)!!}
+    \]
+
+    <p>for \(n>0\), where \(n!!\) is the <a href="https://en.wikipedia.org/wiki/Double_factorial" target="_blank">double factorial function</a>, and \(P(0)=0\).</p>
+
+    <p>*It is tempting to restate &ldquo;the noodles form one big loop&rdquo; as &ldquo;any two noodles belong to the same loop&rdquo;, which would be a true statement for the empty set of noodles. But to do so would a mistake akin to regarding the empty graph as connected. This is an example of the general phenomenon known as <a href="https://ncatlab.org/nlab/show/too+simple+to+be+simple" target="_blank">too simple to be simple</a>.</p>
+  </div>
+
+</body>
+</html>
