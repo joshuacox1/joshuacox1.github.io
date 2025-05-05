@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Hello, world!</title>
+  <title>Joshua Cox | General solver for systems of linear congruences in one variable</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="" />
   <link rel="stylesheet" type="text/css" href="/assets/style.css" />
@@ -321,7 +321,7 @@
         // after already checking it. Should probably
         // do something less silly than this.
         console.assert(math.mod(c1,g) === math.mod(c2,g));
-        
+
         const m1_star = m1/g; const m2_star = m2/g;
         const [_,p,q] = xgcd(m1_star, m2_star);
         const l = lcm(m1, m2);

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Joshua Cox | Kaleidoscope Classic solver</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+  <link rel="stylesheet" type="text/css" href="/assets/style.css" />
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/14.2.1/math.min.js"></script>
+  <link rel="icon" href="favicon.png">
+  <meta name="theme-color" content="">
+</head>
+
+<body>
+<style>
+body {
+    width: 95%;
+}
+
+#sq-table {
+    border-collapse: separate;
+    border-spacing: 2px;
+    background-color: #a3a3a3;
+}
+
+#sq-table td {
+    margin: 0;
+    padding: 0;
+}
+
+.sq {
+    width: 40px; height: 40px; cursor: pointer;
+}
+
+.sq-unset, #palette-chooser-unset { background-color: #bbbbbb; }
+.sq-b, #palette-chooser-b { background-color: #111111; }
+.sq-r, #palette-chooser-r { background-color: #ef1e02; }
+.sq-l, #palette-chooser-l { background-color: #3366FF; }
+.sq-y, #palette-chooser-y { background-color: #efd300; }
+
+.palette-chooser {
+    width: 34px; height: 34px;
+    border: 2px solid green;
+    cursor: pointer;
+}
+
+.palette-chooser:not(.chosen-color) {
+    opacity: 30%;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 5fr 3fr;
+    grid-template-rows: 6fr;
+}
+
+#calculate-button {
+    padding: 10px 50px;
+    margin: 25px auto;
+    display: block;
+}
+
+.example {
+    cursor: pointer;
+}
+
+#solutions-container {
+    height: 500px;
+    overflow-y: scroll;
+    border: 1px solid black;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#live-solve-container {
+    margin: auto;
+    height: 390px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-solve-grid {
+    display: flex;
+    margin: auto;
+}
+
+.smaller-solutions {
+    margin: 10px;
+}
+</style>
+
+<h1>Kaleidoscope Classic solver</h1>
+
+
+<div id="solver-container">
+  <div>
+    <div>
+      <table><tr>
+        <td><table id="palette">
+          <tr><td><div id="palette-chooser-unset" class="palette-chooser"></div></td></tr>
+          <tr><td><div id="palette-chooser-b" class="palette-chooser"></div></td></tr>
+          <tr><td><div id="palette-chooser-r" class="palette-chooser chosen-color"></div></td></tr>
+          <tr><td><div id="palette-chooser-l" class="palette-chooser"></div></td></tr>
+          <tr><td><div id="palette-chooser-y" class="palette-chooser"></div></td></tr>
+        </table></td>
+        <td>
+          <table id="sq-table" class="sq-table">
+            <tr>
+              <td><div id="sq-0-0" class="sq sq-unset"></div></td>
+              <td><div id="sq-1-0" class="sq sq-unset"></div></td>
+              <td><div id="sq-2-0" class="sq sq-unset"></div></td>
+              <td><div id="sq-3-0" class="sq sq-unset"></div></td>
+              <td><div id="sq-4-0" class="sq sq-unset"></div></td>
+              <td><div id="sq-5-0" class="sq sq-unset"></div></td>
+              <td><div id="sq-6-0" class="sq sq-unset"></div></td>
+              <td><div id="sq-7-0" class="sq sq-unset"></div></td>
+            </tr>
+            <tr>
+              <td><div id="sq-0-1" class="sq sq-unset"></div></td>
+              <td><div id="sq-1-1" class="sq sq-unset"></div></td>
+              <td><div id="sq-2-1" class="sq sq-unset"></div></td>
+              <td><div id="sq-3-1" class="sq sq-unset"></div></td>
+              <td><div id="sq-4-1" class="sq sq-unset"></div></td>
+              <td><div id="sq-5-1" class="sq sq-unset"></div></td>
+              <td><div id="sq-6-1" class="sq sq-unset"></div></td>
+              <td><div id="sq-7-1" class="sq sq-unset"></div></td>
+            </tr>
+            <tr>
+              <td><div id="sq-0-2" class="sq sq-unset"></div></td>
+              <td><div id="sq-1-2" class="sq sq-unset"></div></td>
+              <td><div id="sq-2-2" class="sq sq-unset"></div></td>
+              <td><div id="sq-3-2" class="sq sq-unset"></div></td>
+              <td><div id="sq-4-2" class="sq sq-unset"></div></td>
+              <td><div id="sq-5-2" class="sq sq-unset"></div></td>
+              <td><div id="sq-6-2" class="sq sq-unset"></div></td>
+              <td><div id="sq-7-2" class="sq sq-unset"></div></td>
+            </tr>
+            <tr>
+              <td><div id="sq-0-3" class="sq sq-unset"></div></td>
+              <td><div id="sq-1-3" class="sq sq-unset"></div></td>
+              <td><div id="sq-2-3" class="sq sq-unset"></div></td>
+              <td><div id="sq-3-3" class="sq sq-unset"></div></td>
+              <td><div id="sq-4-3" class="sq sq-unset"></div></td>
+              <td><div id="sq-5-3" class="sq sq-unset"></div></td>
+              <td><div id="sq-6-3" class="sq sq-unset"></div></td>
+              <td><div id="sq-7-3" class="sq sq-unset"></div></td>
+            </tr>
+            <tr>
+              <td><div id="sq-0-4" class="sq sq-unset"></div></td>
+              <td><div id="sq-1-4" class="sq sq-unset"></div></td>
+              <td><div id="sq-2-4" class="sq sq-unset"></div></td>
+              <td><div id="sq-3-4" class="sq sq-unset"></div></td>
+              <td><div id="sq-4-4" class="sq sq-unset"></div></td>
+              <td><div id="sq-5-4" class="sq sq-unset"></div></td>
+              <td><div id="sq-6-4" class="sq sq-unset"></div></td>
+              <td><div id="sq-7-4" class="sq sq-unset"></div></td>
+            </tr>
+            <tr>
+              <td><div id="sq-0-5" class="sq sq-unset"></div></td>
+              <td><div id="sq-1-5" class="sq sq-unset"></div></td>
+              <td><div id="sq-2-5" class="sq sq-unset"></div></td>
+              <td><div id="sq-3-5" class="sq sq-unset"></div></td>
+              <td><div id="sq-4-5" class="sq sq-unset"></div></td>
+              <td><div id="sq-5-5" class="sq sq-unset"></div></td>
+              <td><div id="sq-6-5" class="sq sq-unset"></div></td>
+              <td><div id="sq-7-5" class="sq sq-unset"></div></td>
+            </tr>
+            <tr>
+              <td><div id="sq-0-6" class="sq sq-unset"></div></td>
+              <td><div id="sq-1-6" class="sq sq-unset"></div></td>
+              <td><div id="sq-2-6" class="sq sq-unset"></div></td>
+              <td><div id="sq-3-6" class="sq sq-unset"></div></td>
+              <td><div id="sq-4-6" class="sq sq-unset"></div></td>
+              <td><div id="sq-5-6" class="sq sq-unset"></div></td>
+              <td><div id="sq-6-6" class="sq sq-unset"></div></td>
+              <td><div id="sq-7-6" class="sq sq-unset"></div></td>
+            </tr>
+            <tr>
+              <td><div id="sq-0-7" class="sq sq-unset"></div></td>
+              <td><div id="sq-1-7" class="sq sq-unset"></div></td>
+              <td><div id="sq-2-7" class="sq sq-unset"></div></td>
+              <td><div id="sq-3-7" class="sq sq-unset"></div></td>
+              <td><div id="sq-4-7" class="sq sq-unset"></div></td>
+              <td><div id="sq-5-7" class="sq sq-unset"></div></td>
+              <td><div id="sq-6-7" class="sq sq-unset"></div></td>
+              <td><div id="sq-7-7" class="sq sq-unset"></div></td>
+            </tr>
+          </table>
+        </td>
+      </tr></table>
+    </div>
+    <div>
+      <h2>Examples</h2>
+      <table id="example-problems">
+        <tr>
+            <td><div id="example1" class="example"></div></td>
+            <td><div id="example2" class="example"></div></td>
+            <td><div id="example3" class="example"></div></td>
+            <td><div id="example4" class="example"></div></td>
+        </tr>
+        <tr>
+          <td>Baby Elephant</td>
+          <td>Starship</td>
+          <td>City Square</td>
+          <td>Long Stem Rose</td>
+        </tr>
+        <tr>
+            <td><div id="example5" class="example"></div></td>
+            <td><div id="example6" class="example"></div></td>
+            <td><div id="example7" class="example"></div></td>
+            <td><div id="example8" class="example"></div></td>
+        </tr>
+        <tr>
+          <td>Question Mark</td>
+          <td>Volcano</td>
+          <td>Games Board</td>
+          <td>Signal Man</td>
+        </tr>
+        <tr>
+            <td><div id="example9" class="example"></div></td>
+            <td><div id="example10" class="example"></div></td>
+            <td><div id="example11" class="example"></div></td>
+            <td><div id="example12" class="example"></div></td>
+        </tr>
+        <tr>
+          <td>Bambi</td>
+          <td>Hot Air Balloon</td>
+          <td>The Spider</td>
+          <td><em>Custom</em></td>
+        </tr>
+    </table>
+    </div>
+  </div>
+  <div>
+    <table>
+      <tr><td><button type="button">Just find solutions (fast)</button></td></tr>
+      <tr><td><button type="button">Show live solve (slowed-down)</button></td></tr>
+    </table>
+  </div>
+</div>
+
+
+
+<p>The page is a work in progress, but the solver works.</p>
+<div class="container">
+<div>
+    <span>Clicky examples:</span>
+    
+</div>
+</div>
+<input type="radio" id="show-solutions-true" name="show-solutions" value="true" checked>
+<label for="show-solutions-true">Show how the solver works (slow)</label><br>
+<input type="radio" id="show-solutions-false" name="show-solutions" value="false">
+<label for="show-solutions-false">Just show solutions (fast)</label><br>
+<button id="calculate-button" onclick="calculateSolutions()">Calculate solutions</button>
+
+
+<div id="live-solve-container"></div>
+<div id="solutions-container"></div>
+
+<div>
+  <h2>How it works</h2>
+  <p>A given Kaleidoscope puzzle can be represented as an <a href="https://en.wikipedia.org/wiki/Exact_cover" target="_blank">exact cover problem</a>. Define 82 constraints, one for each of the 18 pieces and one for each of the 64 board squares. Define a choice for every unique placement of a particular piece on the board, on a particular side, in a particular place and orientation, which satisfies the colours of the given puzzle. Let this choice satisfy the corresponding piece constraint and the square constraint of every square covered during the piece&#8217;s placement. Then the solutions to the puzzle are the exact covers of these constraints by these choices.</p>
+  <p>The solver constructs the puzzle&#8217;s corresponding exact cover problem and passes it to a generic implementation of <a href="https://en.wikipedia.org/wiki/Knuth%27s_Algorithm_X" target="_blank">Algorithm X</a>, a procedure which enumerates all exact covers. This implementation uses the <a href="https://en.wikipedia.org/wiki/Dancing_Links" target="_blank">dancing links</a> data structure for efficiency. See also <a href="https://arxiv.org/pdf/cs/0011047.pdf" target="_blank">Donald Knuth&#8217;s paper on the exact cover problem, Algorithm X and Dancing Links</a>.</p>
+  <p>A human being considers two solutions identical if they are visually indistinguishable. To account for this, the solver ensures that visually indistinguishable placements of pieces with symmetries are represented as a single choice. There is also a unique ambiguity when both monomino pieces are on their black sides, in which case the solver simply filters out one of the two indistinguishable solutions. Solutions are also considered uniquely up to rotational symmetry. (But not up to mirror symmetry; you could do this but it would be quite complicated.)</p>
+</div>
+
+<script src="dancing_links.js"></script>
+<script src="kaleidoscope-pieces.js"></script>
+<script src="kaleidoscope-svg.js"></script>
+<script>
+let CURRENT_EXAMPLE = "custom";
+let CURRENT_FILL_COLOUR = "R"; // one of "UNSET", "R", "B", "L", "Y"
+const CANVAS_COLORS = [
+    ["UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET"],
+    ["UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET"],
+    ["UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET"],
+    ["UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET"],
+    ["UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET"],
+    ["UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET"],
+    ["UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET"],
+    ["UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET","UNSET"],
+];
+const LIVE_SOLVE_CONTAINER = document.getElementById("live-solve-container");
+const SOLUTIONS_CONTAINER = document.getElementById("solutions-container");
+
+const getSqTableCell = (i,j) => document.getElementById(`sq-${i}-${j}`);
+
+const enableOrDisableCalculateButton = () => {
+    const button = document.getElementById("calculate-button");
+    if (CANVAS_COLORS.some(row => row.some(c => c === "UNSET"))) {
+        button.setAttribute("disabled", "");
+    } else {
+        button.removeAttribute("disabled");
+    }
+}
+
+/* Takes a board and overwrites the current canvas with it. */
+const boardToDisplay = (board) => {
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            const sqTableCell = getSqTableCell(i,j);
+            const currentColor = CANVAS_COLORS[j][i];
+            const newColor = board[j][i];
+            sqTableCell.classList.remove(`sq-${currentColor.toLowerCase()}`);
+            sqTableCell.classList.add(`sq-${newColor.toLowerCase()}`);
+            CANVAS_COLORS[j][i] = newColor;
+        }
+    }
+    enableOrDisableCalculateButton();
+}
+
+/* The calculate solutions button. Currently just blats the first 200
+full solutions in. */
+calculateSolutions = async () => {
+    await asdf();
+    // const boardToSolve = CANVAS_COLORS;
+    // boardSolutions = solveBoard(boardToSolve);
+    // const solutions = [];
+    // for (let i = 0; i < 200; i++) {
+    //     const [_type, nextSol] = boardSolutions.next().value;
+    //     if (nextSol === undefined) {
+    //         break;
+    //     }
+    //     solutions.push(nextSol);
+    // }
+
+    // const SOLUTIONS_CONTAINER = document.getElementById("solutions-container");
+    // SOLUTIONS_CONTAINER.innerHTML = "";
+    // for (const solution of solutions) {
+    //     const s = drawSolution(solution, boardToSolve, 240);
+    //     SOLUTIONS_CONTAINER.appendChild(s);
+    // }
+}
+
+/* Draw the examples. */
+for (const [exampleId, exampleName, example] of EXAMPLES) {
+    const svg = drawBoard(example, 120);
+    svg.id = `example-name-${exampleName}`;
+
+    const exampleDiv = document.getElementById(exampleId);
+    exampleDiv.appendChild(svg);
+    exampleDiv.addEventListener("click", () => {
+        boardToDisplay(example);
+        CURRENT_EXAMPLE = exampleName;
+    });
+}
+
+/* Listeners on each cell on the big canvas so they paint properly.
+Editing the "custom" example actually edits it for selection. */
+for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+        const sqTableCell = getSqTableCell(i,j);
+        sqTableCell.addEventListener("click", () => {
+            const currentFillColour = CURRENT_FILL_COLOUR;
+            const currentColor = CANVAS_COLORS[j][i];
+            sqTableCell.classList.remove(`sq-${currentColor.toLowerCase()}`);
+            sqTableCell.classList.add(`sq-${currentFillColour.toLowerCase()}`);
+            CANVAS_COLORS[j][i] = currentFillColour;
+            if (CURRENT_EXAMPLE === "custom") {
+                CUSTOM[j][i] = currentFillColour;
+                const exampleDiv = document.getElementById("example8");
+                const svg = drawBoard(CUSTOM);
+                exampleDiv.innerHTML = "";
+                exampleDiv.appendChild(svg);
+            }
+            enableOrDisableCalculateButton();
+        })
+    }
+}
+/* Listeners on the palette colours so they select properly. */
+for (const color of ["UNSET", "R", "B", "L", "Y"]) {
+    const paletteChooserId = `palette-chooser-${color.toLowerCase()}`;
+    const chooser = document.getElementById(paletteChooserId);
+    chooser.addEventListener("click", () => {
+        CURRENT_FILL_COLOUR = color;
+        for (const color_ of ["UNSET", "R", "B", "L", "Y"]) {
+            const chooserId2 = `palette-chooser-${color_.toLowerCase()}`;
+            const chooser2 = document.getElementById(chooserId2);
+            if (color_ === color) {
+                chooser2.classList.add("chosen-color");
+            } else {
+                chooser2.classList.remove("chosen-color");
+            }
+        }
+    })
+}
+
+enableOrDisableCalculateButton();
+
+const getShowPartialSolutionsValue = () =>
+    document.querySelector('input[name="show-solutions"]:checked').value === "true";
+
+const asdf = async () => {
+    LIVE_SOLVE_CONTAINER.innerHTML = "";
+    SOLUTIONS_CONTAINER.innerHTML = "";
+    const showPartialSolutions = getShowPartialSolutionsValue();
+    const boardToSolve = structuredClone(CANVAS_COLORS);
+    for (const [type, solution] of solveBoard(boardToSolve, showPartialSolutions)) {
+        const s = drawSolution(solution, boardToSolve, 320);
+        s.classList.add("main-solve-grid");
+        LIVE_SOLVE_CONTAINER.innerHTML = "";
+        LIVE_SOLVE_CONTAINER.appendChild(s);
+        const ms = showPartialSolutions ?
+            type === "partial" ? 35 : 500
+            : 80;
+        if (type === "solution") {
+            const st = drawSolution(solution, boardToSolve, 160);
+            st.classList.add("smaller-solutions");
+            SOLUTIONS_CONTAINER.appendChild(st);
+        }
+        await new Promise(r => setTimeout(r, ms));
+    }
+};
+</script>
+</body>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello, world!</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+  <link rel="stylesheet" type="text/css" href="/assets/style.css" />
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <link rel="icon" href="favicon.png">
+  <meta name="theme-color" content="">
+</head>
+<body>
+  <div>
+    <h1>A function \(f : \mathbb{R} \to \mathbb{R}\) taking every value on every non-empty open interval</h1>
+    <p>I saw this question a while ago. I wasn&#8217;t able to answer it before hearing the following solution, which isn&#8217;t mine.</p>
+    <p>For \(x\) in \(\mathbb{R}\), take its binary representation* \(b_1b_2\ldots b_n.b_{n+1}b_{n+2}\ldots\) and form</p>
+    \[
+    H_x = \sum_{i=1}^\infty \frac{(-1)^{b_i}}{i}\text{.}
+    \]
+
+    <p>Then let</p>
+    \[
+    f(x) = \begin{cases}
+    H_x & H_x \text{ converges}\\
+    0 & H_x \text{ diverges.}
+    \end{cases}
+    \]
+
+    <p>Since any tail of the harmonic series can be made to converge to any real number by changing the signs of terms in the appropriate way, and in every non-empty open interval \((a,b)\) all infinite binary strings on \(\{0,1\}\) are represented* from some sufficiently late binary place, we have \(f((a,b))=\mathbb{R}\).</p>
+
+    <p>*Some numbers have two representations, in which case we ignore the one that ends with an infinite number of \(1\)s. These are therefore not represented anywhere, but their sign application to the harmonic series would always diverge anyway, so no numbers are missed.</p>
+  </div>
+
+</body>
+</html>
