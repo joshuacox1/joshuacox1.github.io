@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Joshua Cox</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+  <link rel="stylesheet" type="text/css" href="/assets/style.css" />
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <link rel="icon" href="favicon.png">
+</head>
+<body>
+  <style>
+    body {
+        width: 90%;
+    }
+    .organ-spec-container { display: flex; flex-flow: row wrap; justify-content: flex-start; align-items: flex-start; }
+    .organ-spec {
+        min-width: 245px;
+        padding: 25px;
+    }
+    .organ-spec td.stop-rank { text-align: right; font-feature-settings: "onum"; }
+    .organ-spec-stop-name { min-width: 80%; }
+    .organ-spec-stop-rank { min-width: 20%; }
+    .organ-spec tr.stop-reed td { color: var(--accent-color); }
+    .organ-spec tr.stop-misc td { font-style: italic; }
+    .organ-spec th {
+         /* text-transform: lowercase; */
+        /* font-feature-settings: "c2sc"; */
+        font-weight: normal;
+        text-align: left;
+        padding-bottom: 15px;
+        /* font-size: 105%; */
+    }
+
+    .manual-name {
+        /* font-feature-settings: "case"; */
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+    }
+
+    .manual-range {
+        font-weight: bold;
+    }
+
+    .enclosed-text {
+        font-style: italic;
+    }
+  </style>
+  <h1>Home organ specification</h1>
+  <p>This is the specification of my home organ (sadly electronic rather than a real pipe organ).</p>
+  <div class="organ-spec-container">
+    <table class="organ-spec">
+      <colgroup><col class="organ-spec-stop-name"><col class="organ-spec-stop-rank"></colgroup>
+      <tr>
+        <th colspan="2">
+          <span class="manual-name">Pedal</span>
+          <span class="manual-range">C&ndash;g¹</span>
+        </th>
+      </tr>
+      <tr>                  <td>Contra Violone</td> <td class="stop-rank">32&prime;</td></tr>
+      <tr>                  <td>Open Wood</td>      <td class="stop-rank">16&prime;</td></tr>
+      <tr>                  <td>Violone</td>        <td class="stop-rank">16&prime;</td></tr>
+      <tr>                  <td>Bourdon</td>        <td class="stop-rank">16&prime;</td></tr>
+      <tr>                  <td>Principal</td>      <td class="stop-rank">8&prime;</td> </tr>
+      <tr>                  <td>Bass Flute</td>     <td class="stop-rank">8&prime;</td> </tr>
+      <tr>                  <td>Choral Bass</td>    <td class="stop-rank">4&prime;</td> </tr>
+      <tr>                  <td>Mixture</td>        <td class="stop-rank">IV</td>      </tr>
+      <tr class="stop-reed"><td>Contra Bombarde</td><td class="stop-rank">32&prime;</td></tr>
+      <tr class="stop-reed"><td>Trombone</td>       <td class="stop-rank">16&prime;</td></tr>
+      <tr class="stop-reed"><td>Trumpet</td>        <td class="stop-rank">8&prime;</td> </tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr class="stop-misc"><td colspan="2">Great to Pedal</td></tr>
+      <tr class="stop-misc"><td colspan="2">Swell to Pedal</td></tr>
+      <tr class="stop-misc"><td colspan="2">Choir to Pedal</td></tr>
+    </table>
+    <table class="organ-spec">
+      <tr>
+        <th colspan="2">
+          <span class="manual-name">Great</span>
+          <span class="manual-range">C&ndash;c⁴</span>
+        </th>
+      </tr>
+      <tr>                  <td>Double Diapason</td>     <td class="stop-rank">16&prime;</td></tr>
+      <tr>                  <td>Open Diapason I</td>     <td class="stop-rank">8&prime;</td> </tr>
+      <tr>                  <td>Open Diapason II</td>    <td class="stop-rank">8&prime;</td> </tr>
+      <tr>                  <td>Gamba</td>               <td class="stop-rank">8&prime;</td> </tr>
+      <tr>                  <td>Claribel Flute</td>      <td class="stop-rank">8&prime;</td> </tr>
+      <tr>                  <td>Stopped Diapason</td>    <td class="stop-rank">8&prime;</td> </tr>
+      <tr>                  <td>Principal</td>           <td class="stop-rank">4&prime;</td> </tr>
+      <tr>                  <td>Harmonic Flute</td>      <td class="stop-rank">4&prime;</td> </tr>
+      <tr>                  <td>Twelfth</td>             <td class="stop-rank">2⅔&prime;</td></tr>
+      <tr>                  <td>Fifteenth</td>           <td class="stop-rank">2&prime;</td> </tr>
+      <tr>                  <td>Full Mixture</td>        <td class="stop-rank">IV</td>       </tr>
+      <tr class="stop-reed"><td>Double Trumpet</td>      <td class="stop-rank">16&prime;</td></tr>
+      <tr class="stop-reed"><td>Trumpet</td>             <td class="stop-rank">8&prime;</td> </tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr class="stop-misc"><td colspan="2">Tremulant</td></tr>
+      <tr class="stop-misc"><td colspan="2">Swell to Great</td></tr>
+      <tr class="stop-misc"><td colspan="2">Choir to Great</td></tr>
+    </table>
+    <table class="organ-spec">
+      <tr>
+        <th colspan="2">
+          <span class="manual-name">Swell</span>
+          <span class="manual-range">C&ndash;c⁴</span>
+          <span class="enclosed-text">(enclosed)</span>
+        </th>
+      </tr>
+      <tr>                  <td>Bourdon</td> <td class="stop-rank">16&prime;</td></tr>
+      <tr>                  <td>Open Diapason</td> <td class="stop-rank">8&prime;</td> </tr>
+      <tr>                  <td>Open Flute</td>    <td class="stop-rank">8&prime;</td> </tr>
+      <tr>                  <td>Rohr Flute</td>    <td class="stop-rank">8&prime;</td> </tr>
+      <tr>                  <td>Salicional</td>    <td class="stop-rank">8&prime;</td> </tr>
+      <tr>                  <td>Voix Céleste</td>  <td class="stop-rank">8&prime;</td> </tr>
+      <tr>                  <td>Principal</td>     <td class="stop-rank">4&prime;</td> </tr>
+      <tr>                  <td>Stopped Flute</td> <td class="stop-rank">4&prime;</td> </tr>
+      <tr>                  <td>Fifteenth</td>     <td class="stop-rank">2&prime;</td> </tr>
+      <tr>                  <td>Sesquialtera</td>  <td class="stop-rank">II</td>       </tr>
+      <tr>                  <td>Mixture</td>       <td class="stop-rank">IV</td>       </tr>
+      <tr class="stop-reed"><td>Contra Fagotto</td><td class="stop-rank">16&prime;</td></tr>
+      <tr class="stop-reed"><td>Cornopean</td>     <td class="stop-rank">8&prime;</td> </tr>
+      <tr class="stop-reed"><td>Oboe</td>          <td class="stop-rank">8&prime;</td> </tr>
+      <tr class="stop-reed"><td>Clarion</td>       <td class="stop-rank">4&prime;</td> </tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr class="stop-misc"><td colspan="2">Tremulant</td></tr>
+    </table>
+    <table class="organ-spec">
+      <tr>
+        <th colspan="2">
+          <span class="manual-name">Choir</span>
+          <span class="manual-range">C&ndash;c⁴</span>
+          <span class="enclosed-text">(enclosed)</span>
+        </th>
+      </tr>
+      <tr>                  <td>Open Diapason</td> <td class="stop-rank">8&prime;</td></tr>
+      <tr>                  <td>Gedackt</td>       <td class="stop-rank">8&prime;</td> </tr>
+      <tr>                  <td>Unda Maris</td>    <td class="stop-rank">8&prime;</td> </tr>
+      <tr>                  <td>Gemshorn</td>      <td class="stop-rank">4&prime;</td> </tr>
+      <tr>                  <td>Lieblich Flute</td><td class="stop-rank">4&prime;</td> </tr>
+      <tr>                  <td>Nazard</td>        <td class="stop-rank">2⅔&prime;</td> </tr>
+      <tr>                  <td>Flageolet</td>     <td class="stop-rank">2&prime;</td> </tr>
+      <tr>                  <td>Tierce</td>        <td class="stop-rank">1⅗&prime;</td> </tr>
+      <tr>                  <td>Larigot</td>       <td class="stop-rank">1⅓&prime;</td></tr>
+      <tr>                  <td>Mixture</td>       <td class="stop-rank">III</td> </tr>
+      <tr class="stop-reed"><td>Clarinet</td>      <td class="stop-rank">8&prime;</td></tr>
+      <tr class="stop-reed"><td>Tuba</td>          <td class="stop-rank">8&prime;</td> </tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr class="stop-misc"><td colspan="2">Tremulant</td></tr>
+      <tr class="stop-misc"><td colspan="2">Swell to Choir</td></tr>
+    </table>
+  </div>
+</body>

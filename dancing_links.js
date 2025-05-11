@@ -154,6 +154,12 @@ class Solver {
                 this.uncover(this.x[j].col);
             }
         }
+        if (!firstTime) {
+            yield [
+                "partial",
+                this.o.slice(0, k).map(o_ => this.x[o_].rowLabel),
+            ];
+        }
         this.uncover(c);
     }
 
@@ -184,7 +190,6 @@ class Solver {
     }
 
     uncover(c) {
-        const f = i => this.this.x[i];
         for (let i = this.x[c].up; i !== c; i = this.x[i].up) {
             for (let j = this.x[i].left; j !== i; j = this.x[j].left) {
                 this.x[this.x[j].col].size += 1;
